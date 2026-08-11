@@ -74,6 +74,19 @@
   .chat-text{white-space:pre-wrap;margin-top:.2rem;color:var(--ink)}
 
   .cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:.75rem}
+  .conflito-grid{display:grid;grid-template-columns:340px 1fr;gap:1rem;align-items:start}
+  @media (max-width:900px){.conflito-grid{grid-template-columns:1fr}}
+  .conflito-col-esquerda{position:sticky;top:.5rem}
+  @media (max-width:900px){.conflito-col-esquerda{position:static}}
+  .conflito-personagens-lista{display:flex;flex-direction:column;gap:.4rem;max-height:340px;overflow-y:auto}
+  .conflito-personagem-card{display:flex;justify-content:space-between;align-items:center;gap:.5rem;padding:.5rem .6rem;background:var(--surface2);border:1px solid var(--border);border-radius:4px;cursor:pointer;transition:border-color .15s,background .15s}
+  .conflito-personagem-card:hover{border-color:var(--blood-light,var(--blood))}
+  .conflito-personagem-card.ativo{border-color:var(--gold);background:var(--surface2-hover)}
+  .conflito-personagem-card.inerte{cursor:default;opacity:.72}
+  .conflito-personagem-card .cpc-nome{font-weight:600}
+  .conflito-personagem-card .cpc-meta{font-size:.75rem;color:var(--muted)}
+  .conflito-personagem-card .cpc-remove{flex-shrink:0}
+  .conflito-col-direita{min-height:200px}
   .card{background:var(--parchment);border:1px solid var(--border);border-radius:5px;padding:.85rem;cursor:pointer;transition:all .2s}
   .card:hover{border-color:var(--blood-light);transform:translateY(-1px)}
   .card h3{font-family:'Cinzel',serif;font-weight:700;font-size:1.02rem;color:var(--blood);margin-bottom:.2rem;letter-spacing:.08em}
@@ -163,7 +176,10 @@
   .roller-section .mini-muted{color:#cfc3ac}
 
   .initiative-row{display:grid;grid-template-columns:1fr 80px auto;gap:.4rem;align-items:center;margin-bottom:.4rem}
-  .initiative-row input{padding:.32rem;border:1px solid var(--border);background:var(--surface2);border-radius:2px}
+  .initiative-row input{padding:.32rem;border:1px solid var(--border);background:var(--surface2);border-radius:2px;color:var(--ink)}
+  .initiative-row-ro{display:grid;grid-template-columns:1fr 60px;gap:.4rem;align-items:center;margin-bottom:.3rem;padding:.3rem .5rem;background:var(--surface2);border-radius:2px}
+  .ini-nome-ro{font-weight:600}
+  .ini-valor-ro{text-align:right;font-family:'Cinzel',serif}
   .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;z-index:100;padding:1rem}
   .modal-box{background:var(--parchment);border:1px solid var(--border);border-radius:5px;width:100%;max-width:520px;max-height:88vh;overflow-y:auto;padding:1.1rem}
   .modal-box h3{font-family:'Cinzel',serif;color:var(--blood);margin-bottom:.75rem;font-size:.95rem;letter-spacing:.1em}
@@ -242,6 +258,7 @@
     <span class="nav-tab" data-page="campanha" id="tab-campanha">Crônica</span>
     <span class="nav-tab" data-page="mestre" id="tab-mestre">Área do Mestre</span>
     <span class="nav-tab" data-page="jogadores" id="tab-jogadores">Área dos Jogadores</span>
+    <span class="nav-tab" data-page="conflito" id="tab-conflito" style="display:none">⚔️ Conflito</span>
     <span class="nav-tab" data-page="ficha" id="tab-ficha">Ficha</span>
     <span class="nav-tab" data-page="npc" id="tab-npc">NPC</span>
     <span class="nav-tab" data-page="evolucao" id="tab-evolucao" style="display:none">Evoluir</span>
@@ -420,7 +437,7 @@
             <button class="btn blood" onclick="adicionarIniciativa()" style="margin-top:1rem">Adicionar</button>
           </div>
           <div class="row" style="margin:.5rem 0"><button class="btn small" onclick="ordenarIniciativa()">Ordenar</button><button class="btn small" onclick="limparIniciativa()">Limpar</button></div>
-          <div id="iniciativa-lista"></div>
+          <div id="iniciativa-lista" class="iniciativa-target" data-controlavel="1"></div>
         </div>
         <div class="panel">
           <h3>Anotações Gerais</h3>
@@ -458,20 +475,20 @@
     <div class="sheet-body">
       <div class="sec-title">Informações Básicas</div>
       <div class="info-grid" style="grid-template-columns:2fr 1fr">
-        <div class="info-field"><label>Nome</label><input type="text" id="npc-nome" oninput="npcAutoSave()"/></div>
+        <div class="info-field"><label>Nome</label><input type="text" id="npc-nome" oninput="currentNpc.nome=this.value;npcAutoSave()"/></div>
         <div class="info-field"><label>Facção</label><select id="npc-faccao" onchange="onFaccaoNpcAlterada()">
           <option value="Mortal">Mortal</option><option value="Vampiro">Vampiro</option><option value="Lobisomem">Lobisomem</option><option value="Mago">Mago</option><option value="Feérico">Feérico</option><option value="Espectro">Espectro</option><option value="Animal">Animal</option>
         </select></div>
       </div>
       <div class="info-grid" style="grid-template-columns:2fr 1fr">
-        <div class="info-field"><label>Arquétipo <span class="mini-muted">(livre — descrição do papel dele na história)</span></label><input type="text" id="npc-arquetipo" oninput="npcAutoSave()" placeholder="Ex: Xerife Sanguinário, Capanga de Rua..."/></div>
+        <div class="info-field"><label>Arquétipo <span class="mini-muted">(livre — descrição do papel dele na história)</span></label><input type="text" id="npc-arquetipo" oninput="currentNpc.arquetipo=this.value;npcAutoSave()" placeholder="Ex: Xerife Sanguinário, Capanga de Rua..."/></div>
         <div class="tracker-block"><label>Nível de Ameaça</label><div id="npc-nivel-dots" class="dots-row"></div></div>
       </div>
-      <div class="info-field"><label>Objetivo Atual <span class="mini-muted">(o que ele está fazendo agora, quando os personagens o encontram)</span></label><textarea id="npc-objetivo" rows="3" oninput="npcAutoSave()" placeholder="Ex: Procurando um vampiro rival, mas não pretende matá-lo."></textarea></div>
+      <div class="info-field"><label>Objetivo Atual <span class="mini-muted">(o que ele está fazendo agora, quando os personagens o encontram)</span></label><textarea id="npc-objetivo" rows="3" oninput="currentNpc.objetivo=this.value;npcAutoSave()" placeholder="Ex: Procurando um vampiro rival, mas não pretende matá-lo."></textarea></div>
 
       <div class="sec-title">Parada de Dados Padrão</div>
       <p class="hint">Em vez de todos os atributos individuais, o NPC usa apenas uma pool para Físicos, uma para Sociais e uma para Mentais.</p>
-      <div class="attrs-cols" id="npc-pools" style="grid-template-columns:repeat(3,1fr)"></div>
+      <div class="attrs-cols npc-pools-target" id="npc-pools" style="grid-template-columns:repeat(3,1fr)"></div>
 
       <div class="sec-title">Atributos Secundários</div>
       <div class="row" style="gap:1.5rem;margin-bottom:.6rem">
@@ -479,25 +496,25 @@
         <div class="field" style="width:190px"><label>Força de Vontade (nº de caixas)</label><input type="number" min="1" max="15" id="npc-fv-max" oninput="onNpcMaxAlterado()"/></div>
       </div>
       <div class="trackers-row">
-        <div class="tracker-block"><label>Vitalidade</label><div id="npc-vit-boxes" class="health-row"></div></div>
-        <div class="tracker-block"><label>Força de Vontade</label><div id="npc-fv-boxes" class="health-row"></div></div>
+        <div class="tracker-block"><label>Vitalidade</label><div id="npc-vit-boxes" class="health-row npc-vit-boxes-target"></div></div>
+        <div class="tracker-block"><label>Força de Vontade</label><div id="npc-fv-boxes" class="health-row npc-fv-boxes-target"></div></div>
       </div>
 
-      <div id="npc-vampiro-section" style="display:none">
+      <div id="npc-vampiro-section" class="npc-vampiro-section-target" style="display:none">
         <div class="sec-title">Vampirismo</div>
         <div class="trackers-row">
-          <div class="tracker-block"><label>Potência de Sangue</label><div id="npc-bp-dots" class="dots-row"></div></div>
-          <div class="tracker-block"><label>Humanidade</label><div id="npc-humanidade-dots" class="dots-row"></div></div>
-          <div class="tracker-block"><label>Fome</label><div id="npc-fome-dots" class="dots-row"></div></div>
+          <div class="tracker-block"><label>Potência de Sangue</label><div id="npc-bp-dots" class="dots-row npc-bp-dots-target"></div></div>
+          <div class="tracker-block"><label>Humanidade</label><div id="npc-humanidade-dots" class="dots-row npc-humanidade-dots-target"></div></div>
+          <div class="tracker-block"><label>Fome</label><div id="npc-fome-dots" class="dots-row npc-fome-dots-target"></div></div>
         </div>
         <p class="hint">Os campos abaixo são preenchidos automaticamente pela tabela oficial, de acordo com a Potência de Sangue marcada.</p>
         <div class="info-grid" style="grid-template-columns:1fr 1fr;margin-top:.3rem">
-          <div class="info-field"><label>Surto de Sangue</label><div class="readonly-field" id="npc-surto"></div></div>
-          <div class="info-field"><label>Quantidade Recuperada</label><div class="readonly-field" id="npc-qtdrecuperada"></div></div>
-          <div class="info-field"><label>Bônus de Poder</label><div class="readonly-field" id="npc-bonuspoder"></div></div>
-          <div class="info-field"><label>Rerrolagem de Sangue</label><div class="readonly-field" id="npc-rerrolagem"></div></div>
-          <div class="info-field"><label>Penalidade de Alimentação</label><div class="readonly-field" id="npc-penalidade"></div></div>
-          <div class="info-field"><label>Gravidade da Perdição</label><div class="readonly-field" id="npc-gravidade"></div></div>
+          <div class="info-field"><label>Surto de Sangue</label><div class="readonly-field npc-derived-target" data-key="surto" id="npc-surto"></div></div>
+          <div class="info-field"><label>Quantidade Recuperada</label><div class="readonly-field npc-derived-target" data-key="qtdrecuperada" id="npc-qtdrecuperada"></div></div>
+          <div class="info-field"><label>Bônus de Poder</label><div class="readonly-field npc-derived-target" data-key="bonuspoder" id="npc-bonuspoder"></div></div>
+          <div class="info-field"><label>Rerrolagem de Sangue</label><div class="readonly-field npc-derived-target" data-key="rerrolagem" id="npc-rerrolagem"></div></div>
+          <div class="info-field"><label>Penalidade de Alimentação</label><div class="readonly-field npc-derived-target" data-key="penalidade" id="npc-penalidade"></div></div>
+          <div class="info-field"><label>Gravidade da Perdição</label><div class="readonly-field npc-derived-target" data-key="gravidade" id="npc-gravidade"></div></div>
         </div>
         <div class="roller-section" id="npc-sangue-roller">
           <div class="roller-title">🩸 Checagem de Sangue (Inflamar o Sangue)</div>
@@ -515,11 +532,11 @@
       </div>
 
       <div class="sec-title">Habilidades</div>
-      <div id="npc-habilidades-list" class="disc-list"></div>
+      <div id="npc-habilidades-list" class="disc-list npc-habilidades-list-target"></div>
       <button class="btn linklike" onclick="addNpcHabilidade()">+ Adicionar Habilidade</button>
 
       <div class="sec-title">Especial <span class="mini-muted">(poderes, disciplinas, dons — em branco para preencher como quiser)</span></div>
-      <div id="npc-especiais-list" class="disc-list"></div>
+      <div id="npc-especiais-list" class="disc-list npc-especiais-list-target"></div>
       <button class="btn linklike" onclick="addNpcEspecial()">+ Adicionar Especial</button>
 
       <div class="sec-title">Rolagens</div>
@@ -529,7 +546,7 @@
           <div><label>Categoria</label><select id="npc-roll-cat">
             <option value="fisicos">Físicos</option><option value="sociais">Sociais</option><option value="mentais">Mentais</option>
           </select></div>
-          <div><label>Habilidade</label><select id="npc-roll-skill"></select></div>
+          <div><label>Habilidade</label><select id="npc-roll-skill" class="npc-roll-skill-target"></select></div>
           <div><label>Modificador</label><input type="number" id="npc-roll-mod" value="0" min="-5" max="10"/></div>
           <div class="row nowrap" style="gap:.35rem;margin-top:1.1rem"><input type="checkbox" id="npc-roll-privada" style="width:auto"/><label style="margin:0" for="npc-roll-privada">Rolagem privada (só o mestre vê)</label></div>
           <button class="btn blood" onclick="rolarNpc()">Rolar</button>
@@ -546,6 +563,175 @@
         </div>
         <div class="dice-result" id="npc-ini-dice-result"></div>
         <div class="result-summary" id="npc-ini-result-summary"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page dark-page" id="page-conflito">
+    <div class="sheet-header">
+      <h1>⚔️ Conflito</h1>
+      <div class="row">
+        <button class="btn blood small" onclick="voltarDoConflito()">Voltar</button>
+      </div>
+    </div>
+    <div class="conflito-grid">
+      <div class="conflito-col-esquerda">
+        <div class="panel dark">
+          <h3 style="margin-top:0">Personagens</h3>
+          <p class="hint dark" id="conflito-hint-personagens"></p>
+          <div id="conflito-add-npc-row" class="row nowrap" style="gap:.4rem;margin-bottom:.6rem">
+            <select id="conflito-add-npc-select" style="flex:1"></select>
+            <button class="btn gold small" onclick="adicionarNpcAoConflito()">+ Adicionar</button>
+          </div>
+          <div id="conflito-personagens-lista" class="conflito-personagens-lista"></div>
+        </div>
+        <div class="panel dark" style="margin-top:.8rem">
+          <h3 style="margin-top:0">Facilitador de Iniciativa</h3>
+          <div id="conflito-ini-controles-mestre">
+            <div class="roller-controls" style="margin-bottom:.5rem">
+              <div style="flex:1;min-width:120px"><label>Nome</label><input type="text" id="cf-ini-nome" placeholder="Nome"/></div>
+              <div style="width:90px"><label>Valor</label><input type="number" id="cf-ini-valor" value="0"/></div>
+              <button class="btn gold small" onclick="adicionarIniciativaConflito()">+ Adicionar</button>
+            </div>
+            <div class="row nowrap" style="gap:.4rem;margin-bottom:.5rem">
+              <button class="btn outline small" onclick="ordenarIniciativa()">Ordenar (maior → menor)</button>
+              <button class="btn danger small" onclick="limparIniciativa()">Limpar Tudo</button>
+            </div>
+          </div>
+          <div id="cf-iniciativa-lista" class="iniciativa-target" data-controlavel="1"></div>
+        </div>
+      </div>
+      <div class="conflito-col-direita" id="conflito-painel-direita">
+        <div class="empty" id="cf-placeholder">Selecione um personagem à esquerda para abrir a ficha de combate.</div>
+
+        <div id="cf-ficha-compacta" style="display:none">
+          <div class="row" style="justify-content:space-between;align-items:flex-start;flex-wrap:wrap">
+            <div>
+              <h2 style="margin:0" id="cf-ficha-nome">Personagem</h2>
+              <div class="mini-muted" id="cf-ficha-meta"></div>
+            </div>
+          </div>
+
+          <div class="sec-title" style="margin-top:.8rem">Roladores</div>
+          <div class="roller-section">
+            <div class="roller-title">🎲 Atributo + Habilidade</div>
+            <div class="roller-controls">
+              <div><label>Atributo</label><select id="cc-roll-attr" onchange="atualizarPreviewRolagemCompacta()"></select></div>
+              <div><label>Habilidade</label><select id="cc-roll-skill" onchange="atualizarPreviewRolagemCompacta()"></select></div>
+              <div><label>Mod.</label><input type="number" id="cc-roll-mod" value="0" min="-5" max="10" oninput="atualizarPreviewRolagemCompacta()"/></div>
+              <button class="btn blood" onclick="rolarParadaCompacta()">Rolar</button>
+            </div>
+            <div class="mini-muted" id="cc-roll-pool-preview" style="margin-bottom:.4rem"></div>
+            <input type="hidden" id="cc-r-comuns" value="0"/><input type="hidden" id="cc-r-fome" value="0"/><input type="hidden" id="cc-r-dif" value="2"/><input type="hidden" id="cc-r-desc" value=""/>
+            <div class="dice-result" id="cc-dice-result"></div>
+            <div class="result-summary" id="cc-result-summary"></div>
+          </div>
+          <div class="roller-section">
+            <div class="roller-title">🧠 Força de Vontade</div>
+            <div class="roller-controls">
+              <button class="btn blood" onclick="rolarForcaDeVontadeCompacta()">Testar</button>
+              <button class="btn outline" onclick="gastarForcaDeVontade()">Gastar 1 ponto</button>
+            </div>
+            <input type="hidden" id="ccwp-r-comuns" value="0"/><input type="hidden" id="ccwp-r-fome" value="0"/><input type="hidden" id="ccwp-r-dif" value="2"/><input type="hidden" id="ccwp-r-desc" value="Teste de Força de Vontade"/>
+            <div class="dice-result" id="ccwp-dice-result"></div>
+            <div class="result-summary" id="ccwp-result-summary"></div>
+          </div>
+          <div class="roller-section">
+            <div class="roller-title">⚔️ Iniciativa</div>
+            <div class="roller-controls"><button class="btn blood" onclick="rolarIniciativaCompacta()">Rolar Iniciativa</button></div>
+            <div class="dice-result" id="ccini-dice-result"></div>
+            <div class="result-summary" id="ccini-result-summary"></div>
+          </div>
+
+          <div class="sec-title">Vitalidade & Força de Vontade</div>
+          <div class="trackers-row">
+            <div class="tracker-block"><label>Vitalidade <span class="mini-muted health-max-label-target"></span></label><div id="cc-health-boxes" class="health-row health-boxes-target"></div></div>
+            <div class="tracker-block"><label>Força de Vontade <span class="mini-muted will-max-label-target"></span></label><div id="cc-willpower-boxes" class="health-row willpower-boxes-target"></div></div>
+          </div>
+
+          <div class="sec-title">Fome</div>
+          <div class="tracker-block"><div id="cc-fome-dots" class="dots-row"></div></div>
+
+          <div class="sec-title">Disciplinas</div>
+          <div id="cc-disc-list" class="disc-list disc-list-target"></div>
+          <button class="btn linklike" onclick="addDisc()">+ Adicionar Disciplina</button>
+
+          <div class="sec-title">Vantagens & Defeitos</div>
+          <div id="cc-vd-list" class="disc-list"></div>
+          <button class="btn linklike" onclick="addVD('cc-vd-list')">+ Adicionar Vantagem/Defeito</button>
+
+          <div class="sec-title">Equipamento</div>
+          <div id="cc-equip-list" class="disc-list equip-list-target"></div>
+          <button class="btn linklike" onclick="addEquip()">+ Adicionar Equipamento</button>
+
+          <div class="sec-title">Potência de Sangue</div>
+          <div class="tracker-block"><div id="cc-bp-dots" class="dots-row"></div></div>
+        </div>
+
+        <div id="cf-npc-compacta" style="display:none">
+          <div class="row" style="justify-content:space-between;align-items:flex-start;flex-wrap:wrap">
+            <div>
+              <h2 style="margin:0" id="cf-npc-nome">NPC</h2>
+              <div class="mini-muted" id="cf-npc-meta"></div>
+            </div>
+          </div>
+          <div class="info-field"><label>Objetivo Atual</label><textarea id="cf-npc-objetivo" rows="2" oninput="currentNpc.objetivo=this.value;npcAutoSave()" placeholder="O que ele está fazendo agora..."></textarea></div>
+
+          <div class="sec-title">Roladores</div>
+          <div class="roller-section">
+            <div class="roller-title">🎲 Rolagem do NPC</div>
+            <div class="roller-controls">
+              <div><label>Categoria</label><select id="cc-npc-roll-cat">
+                <option value="fisicos">Físicos</option><option value="sociais">Sociais</option><option value="mentais">Mentais</option>
+              </select></div>
+              <div><label>Habilidade</label><select id="cc-npc-roll-skill" class="npc-roll-skill-target"></select></div>
+              <div><label>Mod.</label><input type="number" id="cc-npc-roll-mod" value="0" min="-5" max="10"/></div>
+              <button class="btn blood" onclick="rolarNpcCompacta()">Rolar</button>
+            </div>
+            <div class="dice-result" id="cc-npc-dice-result"></div>
+            <div class="result-summary" id="cc-npc-result-summary"></div>
+          </div>
+          <div class="roller-section">
+            <div class="roller-title">⚔️ Iniciativa</div>
+            <div class="roller-controls"><button class="btn blood" onclick="rolarIniciativaNpcCompacta()">Rolar Iniciativa</button></div>
+            <div class="dice-result" id="cc-npc-ini-dice-result"></div>
+            <div class="result-summary" id="cc-npc-ini-result-summary"></div>
+          </div>
+
+          <div class="sec-title">Parada de Dados Padrão</div>
+          <div class="attrs-cols npc-pools-target" style="grid-template-columns:repeat(3,1fr)"></div>
+
+          <div class="sec-title">Vitalidade & Força de Vontade</div>
+          <div class="trackers-row">
+            <div class="tracker-block"><label>Vitalidade</label><div id="cc-npc-vit-boxes" class="health-row npc-vit-boxes-target"></div></div>
+            <div class="tracker-block"><label>Força de Vontade</label><div id="cc-npc-fv-boxes" class="health-row npc-fv-boxes-target"></div></div>
+          </div>
+
+          <div id="cf-npc-vampiro-section" class="npc-vampiro-section-target" style="display:none">
+            <div class="sec-title">Vampirismo</div>
+            <div class="trackers-row">
+              <div class="tracker-block"><label>Potência de Sangue</label><div id="cc-npc-bp-dots" class="dots-row npc-bp-dots-target"></div></div>
+              <div class="tracker-block"><label>Humanidade</label><div id="cc-npc-humanidade-dots" class="dots-row npc-humanidade-dots-target"></div></div>
+              <div class="tracker-block"><label>Fome</label><div id="cc-npc-fome-dots" class="dots-row npc-fome-dots-target"></div></div>
+            </div>
+            <div class="info-grid" style="grid-template-columns:1fr 1fr;margin-top:.3rem">
+              <div class="info-field"><label>Surto de Sangue</label><div class="readonly-field npc-derived-target" data-key="surto"></div></div>
+              <div class="info-field"><label>Qtd. Recuperada</label><div class="readonly-field npc-derived-target" data-key="qtdrecuperada"></div></div>
+              <div class="info-field"><label>Bônus de Poder</label><div class="readonly-field npc-derived-target" data-key="bonuspoder"></div></div>
+              <div class="info-field"><label>Rerrolagem</label><div class="readonly-field npc-derived-target" data-key="rerrolagem"></div></div>
+              <div class="info-field"><label>Penalidade</label><div class="readonly-field npc-derived-target" data-key="penalidade"></div></div>
+              <div class="info-field"><label>Gravidade da Perdição</label><div class="readonly-field npc-derived-target" data-key="gravidade"></div></div>
+            </div>
+          </div>
+
+          <div class="sec-title">Habilidades</div>
+          <div class="disc-list npc-habilidades-list-target"></div>
+          <button class="btn linklike" onclick="addNpcHabilidade()">+ Adicionar Habilidade</button>
+
+          <div class="sec-title">Especial <span class="mini-muted">(poderes, disciplinas, dons)</span></div>
+          <div class="disc-list npc-especiais-list-target"></div>
+          <button class="btn linklike" onclick="addNpcEspecial()">+ Adicionar Especial</button>
+        </div>
       </div>
     </div>
   </section>
@@ -702,8 +888,8 @@
 
       <div class="sec-title">Vitalidade & Força de Vontade</div>
       <div class="trackers-row">
-        <div class="tracker-block"><label>Vitalidade <span class="mini-muted" id="health-max-label"></span></label><div id="health-boxes" class="health-row"></div><div class="mini-muted" style="margin-top:.3rem">clique: vazio → Superficial (/) → Agravado (✕)</div></div>
-        <div class="tracker-block"><label>Força de Vontade <span class="mini-muted" id="will-max-label"></span></label><div id="willpower-boxes" class="health-row"></div></div>
+        <div class="tracker-block"><label>Vitalidade <span class="mini-muted health-max-label-target" id="health-max-label"></span></label><div id="health-boxes" class="health-row health-boxes-target"></div><div class="mini-muted" style="margin-top:.3rem">clique: vazio → Superficial (/) → Agravado (✕)</div></div>
+        <div class="tracker-block"><label>Força de Vontade <span class="mini-muted will-max-label-target" id="will-max-label"></span></label><div id="willpower-boxes" class="health-row willpower-boxes-target"></div></div>
       </div>
 
       <div class="sec-title">Habilidades</div>
@@ -714,7 +900,7 @@
       <datalist id="disciplinas-lista">
         <option value="Animalismo"><option value="Auspícios"><option value="Celeridade"><option value="Dominação"><option value="Fortitude"><option value="Ofuscação"><option value="Potência"><option value="Presença"><option value="Proteanismo"><option value="Feitiçaria de Sangue"><option value="Alquimia Sangue-Ralo">
       </datalist>
-      <div id="disc-list" class="disc-list"></div>
+      <div id="disc-list" class="disc-list disc-list-target"></div>
       <button class="btn linklike" onclick="addDisc()">+ Adicionar Disciplina</button>
 
       <div class="sec-title">Ressonância, Fome & Humanidade</div>
@@ -755,7 +941,7 @@
 
       <div class="sec-title">Equipamentos</div>
       <div class="hint">Armas indicam a quantidade de dano e uma breve descrição. Armaduras indicam quanto de proteção concedem. Equipamentos gerais têm apenas uma descrição.</div>
-      <div id="equip-list" class="disc-list"></div>
+      <div id="equip-list" class="disc-list equip-list-target"></div>
       <button class="btn linklike" onclick="addEquip()">+ Adicionar Equipamento</button>
 
       <div class="sec-title">Mapa de Relacionamentos</div>
@@ -888,13 +1074,12 @@
 // Cole aqui o "firebaseConfig" que você copiou do Firebase Console
 // (Configurações do projeto > Seus apps > Web > SDK setup and configuration)
 const firebaseConfig = {
-  apiKey: "AIzaSyCZWp0m7ymz-yXBQl4U4_aTHF4JqidseQA",
-  authDomain: "vampirev5.firebaseapp.com",
-  projectId: "vampirev5",
-  storageBucket: "vampirev5.firebasestorage.app",
-  messagingSenderId: "707687072197",
-  appId: "1:707687072197:web:5c7b3662ad99f1f0a04bac",
-  measurementId: "G-V5JME6357F"
+  apiKey: "AIzaSyA_qCYzqLyyLm6UOVhsYznvraNHV2rJU1k",
+  authDomain: "zona-d20---v5.firebaseapp.com",
+  projectId: "zona-d20---v5",
+  storageBucket: "zona-d20---v5.firebasestorage.app",
+  messagingSenderId: "736936978688",
+  appId: "1:736936978688:web:41ef925c70dcde1a89ebe5"
 };
 firebase.initializeApp(firebaseConfig);
 // Todos os dados da mesa ficam em UM documento só no Firestore (coleção "vtm_mesa", documento "estado")
@@ -1259,11 +1444,14 @@ function recalcDerived(){
   currentSheet.willpower=ajustarArray(currentSheet.willpower,currentSheet.will_max);
 }
 function renderTrackers(){
-  const hl=document.getElementById('health-max-label'),wl=document.getElementById('will-max-label');
-  if(hl)hl.textContent='Vigor + 3 = '+currentSheet.health_max;
-  if(wl)wl.textContent='Autocontrole + Determinação = '+currentSheet.will_max;
-  renderHealth('health-boxes',currentSheet.health_max,currentSheet.health||[],ns=>{currentSheet.health=ns;renderTrackers();autoSave()});
-  renderWillpower('willpower-boxes',currentSheet.will_max,currentSheet.willpower||[],ns=>{currentSheet.willpower=ns;renderTrackers();autoSave()});
+  document.querySelectorAll('.health-max-label-target').forEach(el=>{el.textContent='Vigor + 3 = '+currentSheet.health_max;});
+  document.querySelectorAll('.will-max-label-target').forEach(el=>{el.textContent='Autocontrole + Determinação = '+currentSheet.will_max;});
+  document.querySelectorAll('.health-boxes-target').forEach(el=>{
+    renderHealth(el.id,currentSheet.health_max,currentSheet.health||[],ns=>{currentSheet.health=ns;renderTrackers();autoSave()});
+  });
+  document.querySelectorAll('.willpower-boxes-target').forEach(el=>{
+    renderWillpower(el.id,currentSheet.will_max,currentSheet.willpower||[],ns=>{currentSheet.willpower=ns;renderTrackers();autoSave()});
+  });
 }
 // Garante compatibilidade com fichas salvas no formato antigo (sem os campos novos)
 function migrarFicha(f){
@@ -1366,6 +1554,7 @@ function atualizarTabs(){
   campTab.style.display=(logado&&currentCampaignId)?'inline-block':'none';
   campTab.textContent=currentCampaignId&&camp()?camp().nome:'Crônica';
   document.getElementById('tab-jogadores').style.display=(logado&&currentCampaignId)?'inline-block':'none';
+  document.getElementById('tab-conflito').style.display=(logado&&currentCampaignId)?'inline-block':'none';
   document.getElementById('tab-mestre').style.display=(logado&&currentCampaignId&&masterUnlocked)?'inline-block':'none';
   document.getElementById('tab-ficha').style.display=currentSheetId?'inline-block':'none';
   document.getElementById('tab-npc').style.display=currentNpcId?'inline-block':'none';
@@ -1377,6 +1566,7 @@ document.querySelectorAll('.nav-tab').forEach(t=>t.addEventListener('click',()=>
   if(p==='hub'){abrirHub();return;}
   if(p==='mestre'){abrirAreaMestre();return;}
   if(p==='jogadores')abrirAreaJogadores();
+  else if(p==='conflito')abrirConflito();
   else if(p==='campanha')abrirCampanha(currentCampaignId);
   else if(p==='ficha'&&currentSheetId)showPage('ficha');
   else if(p==='npc'&&currentNpcId)showPage('npc');
@@ -2320,13 +2510,54 @@ const PODER_RENOMEADO_NPC={
   'Mago':{'Auspícios':'Sentir a Besta','Feitiçaria de Sangue':'Alta Feitiçaria','Dominação':'Comando da Vontade','Ofuscação':'Véu Arcano','Presença':'Carisma Ritualístico','Celeridade':'Aceleração Temporal','Potência':'Força Concedida','Fortitude':'Barreira Arcana'},
   'Feérico':{'Celeridade':'Passo Feérico','Dominação':'Glamour Impositivo','Ofuscação':'Névoa das Fadas','Presença':'Fascínio Feérico','Auspícios':'Visão Além do Véu','Fortitude':'Graça Inumana'}
 };
+// Resumo curto (própria redação, não copiado do livro) do que um NPC com aquele nível
+// de Disciplina consegue fazer na prática — assim o mestre não precisa consultar o
+// livro pra saber o que o poder faz, só ajustar a narração ao nome temático da facção.
+const PODER_DESC_CURTA_NPC={
+  'Presença':{1:'atrai ou afasta a atenção à vontade, com bônus grande em Intimidação ou Persuasão.',
+    2:'morde ou marca a vítima de um jeito que a deixa obcecada e mais fácil de manipular depois.',
+    3:'expõe a própria natureza monstruosa por um instante e provoca terror absoluto em um alvo.',
+    5:'amplifica a presença a ponto de paralisar todo mundo ao redor, incapazes até de agir contra ele.'},
+  'Auspícios':{2:'tem pressentimentos rápidos de perigo e sente coisas escondidas ao redor (premonição).',
+    3:'consegue ver e ouvir por um instante através dos sentidos de outra pessoa próxima.',
+    4:'toca um objeto ou lugar e capta impressões emocionais de quem passou por ali antes.'},
+  'Celeridade':{1:'reflexos sobre-humanos: percebe e reage a ataques rápidos, quase impossível de pegar desprevenido.',
+    2:'movimentos muito mais rápidos em combate, com bônus de Destreza e chance extra de esquiva.',
+    3:'consegue se lançar até um alvo distante num piscar de olhos, agindo quase no mesmo instante.',
+    4:'tão rápido que quem bebe do sangue dele ganha um pouco dessa velocidade emprestada.'},
+  'Animalismo':{1:'tem um vínculo com um animal companheiro e sente a "Besta" latente em quem está por perto.',
+    2:'conversa com animais, convoca bichos da região e dá ordens um pouco mais complexas a eles.',
+    3:'estende esse controle a enxames inteiros de insetos ou pequenos bichos.',
+    4:'consegue transferir a própria mente para dentro do corpo de um animal próximo.',
+    5:'comanda dezenas de animais de uma vez, como se fossem extensões do próprio corpo.'},
+  'Ofuscação':{1:'se mistura ao ambiente e passa despercebido enquanto ficar parado e em silêncio.',
+    2:'anda livremente pela cidade sem ser notado, ou se disfarça brevemente como um estranho qualquer.',
+    3:'também engana câmeras e gravações — aparece borrado, ausente ou irreconhecível nelas.',
+    4:'some de vista mesmo sendo observado diretamente, ou faz um objeto passar despercebido.'},
+  'Potência':{2:'golpes desarmados e com armas brancas causam dano visivelmente maior.',
+    3:'consegue drenar um humano inteiro em questão de segundos, num só gole avassalador.',
+    4:'escala qualquer superfície com as próprias mãos e pés, sem esforço nenhum.',
+    5:'golpes desarmados chegam a ferir gravemente até outros seres sobrenaturais resistentes.'},
+  'Dominação':{2:'planta ordens mais complexas e condicionais na mente da vítima, não só comandos simples.',
+    3:'planta uma sugestão que fica dormente até um gatilho específico ativá-la depois.',
+    4:'a vítima passa a acreditar que tudo que fez sob comando foi decisão própria dela mesma.'},
+  'Fortitude':{2:'resiste a ferimentos leves quase sem se abalar, absorvendo boa parte do dano recebido.',
+    3:'protege a própria mente contra leitura ou manipulação sobrenatural de fora.',
+    4:'fica temporariamente resistente a fogo e luz forte, amenizando parte desse dano.',
+    5:'pele quase impenetrável: ignora a primeira fonte de dano físico que sofrer a cada turno.'},
+  'Feitiçaria de Sangue':{1:'sente traços no sangue de quem provar — identifica se é humano, vampiro ou outra coisa.',
+    2:'consegue corromper o próprio sangue, tornando-o um veneno corrosivo pra quem o ingerir.',
+    3:'transforma parte do próprio sangue num veneno que paralisa quem for exposto a ele.',
+    5:'consegue fazer o sangue de um alvo à distância ferver dentro das próprias veias dele.'}
+};
 function nomearPoderNpc(faccaoSheet,discNome){
   const mapa=PODER_RENOMEADO_NPC[faccaoSheet];
   return (mapa&&mapa[discNome])?mapa[discNome]:discNome;
 }
 function descPoderNpc(faccaoSheet,discNome,nivel){
-  if(faccaoSheet==='Vampiro')return `Poder de Disciplina — veja ${discNome} nível ${nivel} na lista de poderes do sistema.`;
-  return `Mesmo sistema de ${discNome} nível ${nivel} (consulte essa Disciplina para os poderes e rolagens exatas), só renomeado para combinar com a natureza de um ${faccaoSheet.toLowerCase()}.`;
+  const curta=(PODER_DESC_CURTA_NPC[discNome]||{})[nivel]||'concede um poder sobrenatural relevante nesse nível — cabe ao mestre definir o efeito exato em jogo.';
+  if(faccaoSheet==='Vampiro')return `Nível ${nivel} de ${discNome}: ${curta}`;
+  return `Equivalente a ${discNome} nível ${nivel}, manifestado de outra forma: ${curta}`;
 }
 // Templates de geração: para cada facção, 5 níveis de ameaça (1 a 5) com paradas de
 // dados (Físicos/Sociais/Mentais, cada um de 1 a 5), Vitalidade, Força de Vontade,
@@ -2468,27 +2699,43 @@ function carregarNpcNaTela(){
   document.getElementById('npc-vit-max').value=currentNpc.vit_max||3;
   document.getElementById('npc-fv-max').value=currentNpc.fv_max||3;
   buildNpcPools();
-  currentNpc.vitalidade=ajustarArray(currentNpc.vitalidade,currentNpc.vit_max||3);
-  currentNpc.vontade=ajustarArray(currentNpc.vontade,currentNpc.fv_max||3);
-  renderHealth('npc-vit-boxes',currentNpc.vit_max||3,currentNpc.vitalidade,ns=>{currentNpc.vitalidade=ns;npcAutoSave();carregarNpcNaTela()});
-  renderWillpower('npc-fv-boxes',currentNpc.fv_max||3,currentNpc.vontade,ns=>{currentNpc.vontade=ns;npcAutoSave();carregarNpcNaTela()});
-  document.getElementById('npc-vampiro-section').style.display=currentNpc.faccao==='Vampiro'?'block':'none';
-  renderDots('npc-bp-dots',10,currentNpc.bp||0,v=>{currentNpc.bp=v;npcAutoSave();carregarNpcNaTela()});
-  renderDots('npc-humanidade-dots',10,currentNpc.humanidade||7,v=>{currentNpc.humanidade=v;npcAutoSave();carregarNpcNaTela()},'box');
-  renderFomeDots('npc-fome-dots',currentNpc.fome||0,v=>{currentNpc.fome=v;npcAutoSave();carregarNpcNaTela()});
-  atualizarCamposPotenciaSangueNpc();
+  renderNpcTrackers();
   buildNpcHabilidades();buildNpcEspeciais();
   popularNpcRollSelects();
+}
+// Renderiza Vitalidade/FV/Fome/Humanidade/Potência de Sangue do NPC em TODOS os
+// containers presentes na página (ficha completa + versão compacta do Conflito).
+function renderNpcTrackers(){
+  currentNpc.vitalidade=ajustarArray(currentNpc.vitalidade,currentNpc.vit_max||3);
+  currentNpc.vontade=ajustarArray(currentNpc.vontade,currentNpc.fv_max||3);
+  document.querySelectorAll('.npc-vit-boxes-target').forEach(el=>{
+    renderHealth(el.id,currentNpc.vit_max||3,currentNpc.vitalidade,ns=>{currentNpc.vitalidade=ns;npcAutoSave();renderNpcTrackers()});
+  });
+  document.querySelectorAll('.npc-fv-boxes-target').forEach(el=>{
+    renderWillpower(el.id,currentNpc.fv_max||3,currentNpc.vontade,ns=>{currentNpc.vontade=ns;npcAutoSave();renderNpcTrackers()});
+  });
+  document.querySelectorAll('.npc-vampiro-section-target').forEach(el=>{el.style.display=currentNpc.faccao==='Vampiro'?'block':'none';});
+  document.querySelectorAll('.npc-bp-dots-target').forEach(el=>{
+    renderDots(el.id,10,currentNpc.bp||0,v=>{currentNpc.bp=v;npcAutoSave();renderNpcTrackers()});
+  });
+  document.querySelectorAll('.npc-humanidade-dots-target').forEach(el=>{
+    renderDots(el.id,10,currentNpc.humanidade||7,v=>{currentNpc.humanidade=v;npcAutoSave();renderNpcTrackers()},'box');
+  });
+  document.querySelectorAll('.npc-fome-dots-target').forEach(el=>{
+    renderFomeDots(el.id,currentNpc.fome||0,v=>{currentNpc.fome=v;npcAutoSave();renderNpcTrackers()});
+  });
+  atualizarCamposPotenciaSangueNpc();
 }
 function atualizarCamposPotenciaSangueNpc(){
   const bp=Math.max(0,Math.min(10,parseInt(currentNpc.bp)||0));
   const t=BP_TABLE[bp]||BP_TABLE[0];
   currentNpc.bp_rec_num=t.recNum;
   const mapa={surto:t.surto,qtdrecuperada:t.recTxt,bonuspoder:t.bonus,rerrolagem:t.rerrol,gravidade:String(t.grav),penalidade:t.pen};
-  Object.keys(mapa).forEach(k=>{const el=document.getElementById('npc-'+k);if(el)el.textContent=mapa[k];});
+  document.querySelectorAll('.npc-derived-target').forEach(el=>{const k=el.dataset.key;if(k&&mapa[k]!==undefined)el.textContent=mapa[k];});
 }
-function buildNpcPools(){
-  const sec=document.getElementById('npc-pools');if(!sec)return;sec.innerHTML='';
+function buildNpcPools(){document.querySelectorAll('.npc-pools-target').forEach(buildNpcPoolsInto);}
+function buildNpcPoolsInto(sec){
+  sec.innerHTML='';
   [['Físicos','pool_fisicos'],['Sociais','pool_sociais'],['Mentais','pool_mentais']].forEach(([label,key])=>{
     const g=document.createElement('div');g.className='attr-group';g.innerHTML=`<h4>${label}</h4>`;
     const row=document.createElement('div');row.className='attr-row';
@@ -2507,20 +2754,17 @@ function onNpcMaxAlterado(){
   npcAutoSave();carregarNpcNaTela();
 }
 function npcAutoSave(){
-  currentNpc.nome=document.getElementById('npc-nome').value;
-  currentNpc.arquetipo=document.getElementById('npc-arquetipo')?.value||'';
-  currentNpc.objetivo=document.getElementById('npc-objetivo')?.value||'';
-  document.getElementById('npc-sheet-name').textContent=currentNpc.nome||'NPC';
+  const nomeEl=document.getElementById('npc-sheet-name');if(nomeEl)nomeEl.textContent=currentNpc.nome||'NPC';
   clearTimeout(npcAutoSaveTimer);npcAutoSaveTimer=setTimeout(saveNpc,700);
 }
 async function saveNpc(){
   if(!currentCampaignId||!currentNpcId)return;
-  currentNpc.nome=document.getElementById('npc-nome').value;
   camp().npcs[currentNpcId]=JSON.parse(JSON.stringify(currentNpc));
   await salvarDB();
 }
-function buildNpcHabilidades(){
-  const list=document.getElementById('npc-habilidades-list');if(!list)return;list.innerHTML='';
+function buildNpcHabilidades(){document.querySelectorAll('.npc-habilidades-list-target').forEach(buildNpcHabilidadesInto);}
+function buildNpcHabilidadesInto(list){
+  list.innerHTML='';
   (currentNpc.habilidades||[]).forEach((h,i)=>{
     const row=document.createElement('div');row.className='disc-row';
     const sel=document.createElement('select');sel.innerHTML=todasHabilidades().map(s=>`<option value="${escapeHTML(s)}">${escapeHTML(s)}</option>`).join('');
@@ -2539,8 +2783,9 @@ function addNpcHabilidade(){
   currentNpc.habilidades.push({nome:todasHabilidades()[0],nivel:0});
   buildNpcHabilidades();npcAutoSave();popularNpcRollSelects();
 }
-function buildNpcEspeciais(){
-  const list=document.getElementById('npc-especiais-list');if(!list)return;list.innerHTML='';
+function buildNpcEspeciais(){document.querySelectorAll('.npc-especiais-list-target').forEach(buildNpcEspeciaisInto);}
+function buildNpcEspeciaisInto(list){
+  list.innerHTML='';
   (currentNpc.especiais||[]).forEach((e,i)=>{
     const wrap=document.createElement('div');wrap.className='disc-wrap';
     const row=document.createElement('div');row.className='disc-row';
@@ -2562,8 +2807,11 @@ function addNpcEspecial(){
   buildNpcEspeciais();npcAutoSave();
 }
 function popularNpcRollSelects(){
-  const skillSel=document.getElementById('npc-roll-skill');if(!skillSel)return;
-  skillSel.innerHTML='<option value="">Nenhuma</option>'+(currentNpc.habilidades||[]).map((h,i)=>`<option value="${i}">${escapeHTML(h.nome)} (${h.nivel})</option>`).join('');
+  document.querySelectorAll('.npc-roll-skill-target').forEach(skillSel=>{
+    const atual=skillSel.value;
+    skillSel.innerHTML='<option value="">Nenhuma</option>'+(currentNpc.habilidades||[]).map((h,i)=>`<option value="${i}">${escapeHTML(h.nome)} (${h.nivel})</option>`).join('');
+    if(atual)skillSel.value=atual;
+  });
 }
 function rolarNpc(){
   if(!currentNpc)return;
@@ -2715,22 +2963,21 @@ async function deletarFicha(id,e){
 }
 function salvarNotasMestre(){camp().notas=document.getElementById('mestre-notas').value;salvarDB();}
 
-function adicionarIniciativa(){
-  const nome=document.getElementById('ini-nome').value.trim();
-  const valor=parseInt(document.getElementById('ini-valor').value)||0;
-  if(!nome){toast('Informe o nome na iniciativa.');return;}
-  camp().iniciativa=camp().iniciativa||[];camp().iniciativa.push({id:uid('ini'),nome,valor});
-  document.getElementById('ini-nome').value='';document.getElementById('ini-valor').value='0';
-  salvarDB();renderIniciativa();
-}
 function renderIniciativa(){
-  const box=document.getElementById('iniciativa-lista');if(!box)return;const lista=camp().iniciativa||[];
-  if(!lista.length){box.innerHTML='<div class="empty">Nenhuma iniciativa adicionada.</div>';return;}
-  box.innerHTML='';
-  lista.forEach(item=>{
-    const row=document.createElement('div');row.className='initiative-row';
-    row.innerHTML=`<input value="${escapeHTML(item.nome)}" onchange="editarIniciativa('${item.id}','nome',this.value)"><input type="number" value="${Number(item.valor)||0}" onchange="editarIniciativa('${item.id}','valor',this.value)"><button class="btn small" onclick="removerIniciativa('${item.id}')">Remover</button>`;
-    box.appendChild(row);
+  const lista=(currentCampaignId&&camp()&&camp().iniciativa)||[];
+  document.querySelectorAll('.iniciativa-target').forEach(box=>{
+    const controlavel=box.dataset.controlavel==='1';
+    if(!lista.length){box.innerHTML='<div class="empty">Nenhuma iniciativa adicionada.</div>';return;}
+    box.innerHTML='';
+    lista.forEach(item=>{
+      const row=document.createElement('div');row.className='initiative-row'+(controlavel?'':' initiative-row-ro');
+      if(controlavel){
+        row.innerHTML=`<input value="${escapeHTML(item.nome)}" onchange="editarIniciativa('${item.id}','nome',this.value)"><input type="number" value="${Number(item.valor)||0}" onchange="editarIniciativa('${item.id}','valor',this.value)"><button class="btn small" onclick="removerIniciativa('${item.id}')">Remover</button>`;
+      } else {
+        row.innerHTML=`<span class="ini-nome-ro">${escapeHTML(item.nome)}</span><span class="ini-valor-ro">${Number(item.valor)||0}</span>`;
+      }
+      box.appendChild(row);
+    });
   });
 }
 function editarIniciativa(id,campo,valor){const it=(camp().iniciativa||[]).find(x=>x.id===id);if(!it)return;it[campo]=campo==='valor'?(parseInt(valor)||0):valor;salvarDB();}
@@ -2913,7 +3160,6 @@ function renderEvolucaoOverview(body){
       <div class="wizard-choice" onclick="evolucaoView='habilidade';renderEvolucao()"><h4>🎯 Melhorar Habilidade</h4></div>
       <div class="wizard-choice" onclick="evolucaoView='especializacao';renderEvolucao()"><h4>⭐ Nova Especialização</h4></div>
       <div class="wizard-choice" onclick="evolucaoView='disciplina';renderEvolucao()"><h4>🩸 Disciplina</h4></div>
-      <div class="wizard-choice" onclick="evolucaoView='vantagem';renderEvolucao()"><h4>➕ Vantagem</h4></div>
       <div class="wizard-choice" onclick="evolucaoView='potencia';renderEvolucao()"><h4>🍷 Potência de Sangue</h4></div>
       <div class="wizard-choice" onclick="evolucaoView='outro';renderEvolucao()"><h4>✎ Outro (Ritual, Fórmula, etc.)</h4></div>
     </div>
@@ -3213,8 +3459,9 @@ function renderWillpower(containerId,max,states,onChange){const c=document.getEl
 function buildAttrs(){const sec=document.getElementById('attrs-section');sec.innerHTML='';for(const [cat,attrs] of Object.entries(ATTRS)){const g=document.createElement('div');g.className='attr-group';g.innerHTML=`<h4>${cat}</h4>`;attrs.forEach(a=>{const row=document.createElement('div');row.className='attr-row';const dots=document.createElement('div');dots.className='dots-mini';renderMiniDots(dots,5,currentSheet['attr_'+a]||1,v=>{currentSheet['attr_'+a]=Math.max(1,v);recalcDerived();buildAttrs();renderTrackers();atualizarPreviewRolagem();autoSave()});row.innerHTML=`<span>${a}</span>`;row.appendChild(dots);g.appendChild(row)});sec.appendChild(g)}}
 function buildSkills(){const sec=document.getElementById('skills-section');sec.innerHTML='';for(const [cat,skills] of Object.entries(SKILLS)){const g=document.createElement('div');g.className='attr-group';g.innerHTML=`<h4>${cat}</h4>`;skills.forEach(s=>{const row=document.createElement('div');row.className='attr-row';const dots=document.createElement('div');dots.className='dots-mini';renderMiniDots(dots,5,currentSheet['skill_'+s]||0,v=>{currentSheet['skill_'+s]=v;buildSkills();atualizarPreviewRolagem();autoSave()});row.innerHTML=`<span>${s}</span>`;row.appendChild(dots);g.appendChild(row)});sec.appendChild(g)}}
 
-function buildDiscs(){
-  const list=document.getElementById('disc-list');list.innerHTML='';
+function buildDiscs(){document.querySelectorAll('.disc-list-target').forEach(buildDiscsInto);}
+function buildDiscsInto(list){
+  list.innerHTML='';
   (currentSheet.disciplinas||[]).forEach((d,i)=>{
     const wrap=document.createElement('div');wrap.className='disc-wrap';
     const row=document.createElement('div');row.className='disc-row';
@@ -3424,8 +3671,9 @@ function addVDSangueRalo(containerId,onUpdate){
   buildVDSangueRalo(containerId,onUpdate);autoSave();
 }
 
-function buildEquip(){
-  const list=document.getElementById('equip-list');if(!list)return;list.innerHTML='';
+function buildEquip(){document.querySelectorAll('.equip-list-target').forEach(buildEquipInto);}
+function buildEquipInto(list){
+  list.innerHTML='';
   (currentSheet.equipamentos||[]).forEach((eq,i)=>{
     const wrap=document.createElement('div');wrap.className='disc-wrap';
     const row=document.createElement('div');row.className='disc-row';
@@ -3742,6 +3990,264 @@ function rolarIniciativaNpc(){
   summary.innerHTML=`<span class="suc">Iniciativa: ${soma}</span> <span class="mini-muted">(Social ${social} + Percepção ${percepcao} = ${qtd}d10: ${valores.join(', ')})</span>`;
   pushIniciativa(currentNpc.nome||'NPC',soma);
   toast(`Iniciativa ${soma} enviada para o Facilitador de Iniciativa.`);
+}
+// ====== Versões "compactas" dos roladores, usadas na aba Conflito (mesmo efeito,
+// mesmos dados salvos — só apontam para outros elementos da tela). ======
+function popularSelectsRolagemCompacta(){
+  const attrSel=document.getElementById('cc-roll-attr');const skillSel=document.getElementById('cc-roll-skill');
+  if(!attrSel||!skillSel)return;
+  attrSel.innerHTML='';
+  Object.entries(ATTRS).forEach(([cat,attrs])=>{
+    const og=document.createElement('optgroup');og.label=cat;
+    attrs.forEach(a=>{const o=document.createElement('option');o.value=a;o.textContent=a;og.appendChild(o);});
+    attrSel.appendChild(og);
+  });
+  skillSel.innerHTML='<option value="">Nenhuma — só Atributo</option>';
+  Object.entries(SKILLS).forEach(([cat,skills])=>{
+    const og=document.createElement('optgroup');og.label=cat;
+    skills.forEach(h=>{const o=document.createElement('option');o.value=h;o.textContent=h;og.appendChild(o);});
+    skillSel.appendChild(og);
+  });
+  atualizarPreviewRolagemCompacta();
+}
+function calcularParadaCompacta(){
+  const attr=document.getElementById('cc-roll-attr')?.value||'';
+  const skill=document.getElementById('cc-roll-skill')?.value||'';
+  const mod=parseInt(document.getElementById('cc-roll-mod')?.value)||0;
+  const attrVal=attr?(currentSheet['attr_'+attr]||1):0;
+  const skillVal=skill?(currentSheet['skill_'+skill]||0):0;
+  const total=Math.max(0,attrVal+skillVal+mod);
+  const fomeAtual=Math.max(0,Math.min(5,parseInt(currentSheet.fome)||0));
+  const dadosFome=Math.min(total,fomeAtual);
+  const dadosComuns=Math.max(0,total-dadosFome);
+  return {attr,skill,mod,attrVal,skillVal,total,fomeAtual,dadosFome,dadosComuns};
+}
+function atualizarPreviewRolagemCompacta(){
+  const p=calcularParadaCompacta();
+  const comuns=document.getElementById('cc-r-comuns');const fome=document.getElementById('cc-r-fome');const preview=document.getElementById('cc-roll-pool-preview');
+  if(comuns)comuns.value=p.total;if(fome)fome.value=p.dadosFome;
+  if(preview){
+    const habilidade=p.skill?` + ${p.skill} ${p.skillVal}`:' + nenhuma habilidade';
+    const mod=p.mod?` ${p.mod>0?'+':''}${p.mod} mod.`:'';
+    preview.textContent=`Parada: ${p.attr||'Atributo'} ${p.attrVal}${habilidade}${mod} = ${p.total} dado(s). Comuns: ${p.dadosComuns}. Fome: ${p.dadosFome}.`;
+  }
+}
+function rolarParadaCompacta(){
+  collectFields();atualizarPreviewRolagemCompacta();
+  const p=calcularParadaCompacta();
+  if(!p.attr){toast('Selecione um atributo.');return;}
+  if(p.total<=0){toast('A parada ficou com 0 dados.');return;}
+  document.getElementById('cc-r-desc').value=p.skill?`${p.attr} + ${p.skill}`:`${p.attr} sem habilidade`;
+  document.getElementById('cc-r-dif').value=dificuldadeAtualMesa();
+  rolarDados('cc');
+}
+function rolarForcaDeVontadeCompacta(){
+  collectFields();recalcDerived();
+  const pool=Math.max(0,calcWillMax(currentSheet));
+  if(pool<=0){toast('A parada de Força de Vontade ficou com 0 dados.');return;}
+  document.getElementById('ccwp-r-comuns').value=pool;document.getElementById('ccwp-r-fome').value=0;
+  document.getElementById('ccwp-r-desc').value='Teste de Força de Vontade';
+  document.getElementById('ccwp-r-dif').value=dificuldadeAtualMesa();
+  rolarDados('ccwp');
+}
+function rolarIniciativaCompacta(){
+  collectFields();
+  const autocontrole=currentSheet.attr_Autocontrole||1;
+  const percepcao=currentSheet.skill_Percepção||0;
+  const qtd=Math.max(1,autocontrole+percepcao);
+  const result=document.getElementById('ccini-dice-result');const summary=document.getElementById('ccini-result-summary');
+  if(!result||!summary)return;
+  result.innerHTML='';
+  const valores=[];
+  for(let i=0;i<qtd;i++){const v=rolarUmD10();valores.push(v);const el=document.createElement('div');el.className='die comum'+(v===10?' critico':v>=6?' sucesso':'');el.textContent=v;result.appendChild(el);}
+  const soma=valores.reduce((a,b)=>a+b,0);
+  summary.innerHTML=`<span class="suc">Iniciativa: ${soma}</span> <span class="mini-muted">(Autocontrole ${autocontrole} + Percepção ${percepcao} = ${qtd}d10: ${valores.join(', ')})</span>`;
+  pushIniciativa(currentSheet.f_nome||'Personagem',soma);
+  toast(`Iniciativa ${soma} enviada para o Facilitador de Iniciativa.`);
+}
+function rolarNpcCompacta(){
+  if(!currentNpc)return;
+  const cat=document.getElementById('cc-npc-roll-cat').value;
+  const catVal=currentNpc['pool_'+cat]||0;
+  const skillIdx=document.getElementById('cc-npc-roll-skill').value;
+  const skillVal=skillIdx!==''?((currentNpc.habilidades[skillIdx]||{}).nivel||0):0;
+  const mod=parseInt(document.getElementById('cc-npc-roll-mod').value)||0;
+  const total=Math.max(0,catVal+skillVal+mod);
+  if(total<=0){toast('A parada ficou com 0 dados.');return;}
+  const dif=dificuldadeAtualMesa();
+  const result=document.getElementById('cc-npc-dice-result');const summary=document.getElementById('cc-npc-result-summary');
+  result.innerHTML='';
+  const dados=[];for(let i=0;i<total;i++)dados.push(rolarUmD10());
+  const dez=dados.filter(v=>v===10).length;
+  const pares=Math.floor(dez/2);const dezRestantes=dez%2;
+  const medios=dados.filter(v=>v>=6&&v<=9).length;
+  const sucessos=pares*4+dezRestantes+medios;
+  const falhou=sucessos<dif;
+  const resultado=falhou?'Falha':(pares>0?'Crítico':'Sucesso');
+  dados.forEach(v=>{const el=document.createElement('div');el.className='die comum'+(v===10?' critico':v>=6?' sucesso':'');el.textContent=v;result.appendChild(el);});
+  summary.innerHTML=`<span class="${falhou?'fail':'suc'}">${resultado}: ${sucessos} sucesso(s) / Dificuldade ${dif}</span>`;
+  const nomeHab=skillIdx!==''?(' + '+((currentNpc.habilidades[skillIdx]||{}).nome||'')):'';
+  registrarRolagem({quando:Date.now(),quem:currentNpc.nome||'NPC',comuns:total,fome:0,dificuldade:dif,descricao:`NPC · ${cat}${nomeHab}`,dados,sucessos,resultado});
+}
+function rolarIniciativaNpcCompacta(){
+  if(!currentNpc)return;
+  const social=currentNpc.pool_sociais||1;
+  const habPercepcao=(currentNpc.habilidades||[]).find(h=>h.nome==='Percepção');
+  const percepcao=habPercepcao?(habPercepcao.nivel||0):(currentNpc.pool_mentais||0);
+  const qtd=Math.max(1,social+percepcao);
+  const result=document.getElementById('cc-npc-ini-dice-result');const summary=document.getElementById('cc-npc-ini-result-summary');
+  if(!result||!summary)return;
+  result.innerHTML='';
+  const valores=[];
+  for(let i=0;i<qtd;i++){const v=rolarUmD10();valores.push(v);const el=document.createElement('div');el.className='die comum'+(v===10?' critico':v>=6?' sucesso':'');el.textContent=v;result.appendChild(el);}
+  const soma=valores.reduce((a,b)=>a+b,0);
+  summary.innerHTML=`<span class="suc">Iniciativa: ${soma}</span> <span class="mini-muted">(Social ${social} + Percepção ${percepcao} = ${qtd}d10: ${valores.join(', ')})</span>`;
+  pushIniciativa(currentNpc.nome||'NPC',soma);
+  toast(`Iniciativa ${soma} enviada para o Facilitador de Iniciativa.`);
+}
+// ====== Aba Conflito (mestre + jogador) ======
+let conflitoSelecionado={tipo:null,id:null};
+function abrirConflito(){
+  if(!currentCampaignId){toast('Entre numa crônica primeiro.');return;}
+  if(!masterUnlocked)garantirJogadorAtual();
+  conflitoSelecionado={tipo:null,id:null};
+  mostrarPainelConflito(null);
+  renderConflito();
+  showPage('conflito');
+}
+function voltarDoConflito(){
+  if(masterUnlocked){renderMestre();showPage('mestre');}
+  else {renderAreaJogadores();showPage('jogadores');}
+}
+function adicionarIniciativaGenerica(nomeId,valorId){
+  const nomeEl=document.getElementById(nomeId),valorEl=document.getElementById(valorId);
+  if(!nomeEl||!valorEl)return;
+  const nome=nomeEl.value.trim();
+  const valor=parseInt(valorEl.value)||0;
+  if(!nome){toast('Informe o nome na iniciativa.');return;}
+  camp().iniciativa=camp().iniciativa||[];camp().iniciativa.push({id:uid('ini'),nome,valor});
+  nomeEl.value='';valorEl.value='0';
+  salvarDB();renderIniciativa();
+}
+function adicionarIniciativa(){adicionarIniciativaGenerica('ini-nome','ini-valor');}
+function adicionarIniciativaConflito(){adicionarIniciativaGenerica('cf-ini-nome','cf-ini-valor');}
+function renderConflito(){
+  if(!currentCampaignId)return;
+  const controlesMestre=document.getElementById('conflito-ini-controles-mestre');
+  const addNpcRow=document.getElementById('conflito-add-npc-row');
+  const iniLista=document.getElementById('cf-iniciativa-lista');
+  const hint=document.getElementById('conflito-hint-personagens');
+  if(controlesMestre)controlesMestre.style.display=masterUnlocked?'block':'none';
+  if(addNpcRow)addNpcRow.style.display=masterUnlocked?'flex':'none';
+  if(iniLista)iniLista.dataset.controlavel=masterUnlocked?'1':'0';
+  if(hint)hint.textContent=masterUnlocked
+    ?'Clique em qualquer personagem ou NPC para abrir a ficha de combate à direita. NPCs precisam ser adicionados ao combate para aparecer aqui.'
+    :'Aqui estão os personagens e NPCs deste combate. Clique no seu próprio personagem para abrir a ficha de combate — os outros aparecem só pra você saber a ordem de iniciativa.';
+
+  if(masterUnlocked){
+    const npcSel=document.getElementById('conflito-add-npc-select');
+    const todosNpcs=Object.values(camp().npcs||{});
+    const emCombate=new Set(camp().combateNpcs||[]);
+    const disponiveis=todosNpcs.filter(n=>!emCombate.has(n.id)).sort((a,b)=>String(a.nome).localeCompare(String(b.nome),'pt-BR'));
+    if(npcSel)npcSel.innerHTML=disponiveis.length?disponiveis.map(n=>`<option value="${n.id}">${escapeHTML(n.nome||'NPC sem nome')} (${escapeHTML(n.faccao||'Mortal')})</option>`).join(''):'<option value="">Nenhum NPC disponível</option>';
+  }
+
+  const lista=document.getElementById('conflito-personagens-lista');if(!lista)return;lista.innerHTML='';
+  const fichas=Object.values(camp().fichas||{}).sort((a,b)=>String(a.f_nome).localeCompare(String(b.f_nome),'pt-BR'));
+  const npcsEmCombateIds=camp().combateNpcs||[];
+  const npcsEmCombate=npcsEmCombateIds.map(id=>camp().npcs&&camp().npcs[id]).filter(Boolean);
+
+  if(!fichas.length&&!npcsEmCombate.length){lista.innerHTML='<div class="empty">Nenhum personagem nesta crônica ainda.</div>';return;}
+
+  fichas.forEach(f=>{
+    const donoDoJogador=f.donoId===currentPlayerId;
+    const podeClicar=masterUnlocked||donoDoJogador;
+    const card=document.createElement('div');
+    card.className='conflito-personagem-card'+(podeClicar?'':' inerte')+((conflitoSelecionado.tipo==='ficha'&&conflitoSelecionado.id===f.id)?' ativo':'');
+    card.innerHTML=`<div><div class="cpc-nome">${escapeHTML(f.f_nome||'Sem nome')}${donoDoJogador?' <span class="mini-muted">(você)</span>':''}</div><div class="cpc-meta">${escapeHTML(f.f_cla||'Personagem')} · Jogador: ${escapeHTML(nomeDoJogador(f.donoId)||f.f_jogador||'—')}</div></div>`;
+    if(podeClicar)card.onclick=()=>selecionarPersonagemConflito('ficha',f.id);
+    lista.appendChild(card);
+  });
+  npcsEmCombate.forEach(n=>{
+    const card=document.createElement('div');
+    card.className='conflito-personagem-card'+(masterUnlocked?'':' inerte')+((conflitoSelecionado.tipo==='npc'&&conflitoSelecionado.id===n.id)?' ativo':'');
+    const info=document.createElement('div');info.innerHTML=`<div class="cpc-nome">${escapeHTML(n.nome||'NPC sem nome')}</div><div class="cpc-meta">${escapeHTML(n.faccao||'Mortal')}${n.arquetipo?' · '+escapeHTML(n.arquetipo):''}</div>`;
+    card.appendChild(info);
+    if(masterUnlocked){
+      const rm=document.createElement('button');rm.type='button';rm.className='btn small cpc-remove';rm.textContent='✕';rm.title='Remover do combate';
+      rm.onclick=(ev)=>{ev.stopPropagation();removerNpcDoConflito(n.id);};
+      card.appendChild(rm);
+      card.onclick=()=>selecionarPersonagemConflito('npc',n.id);
+    }
+    lista.appendChild(card);
+  });
+  renderIniciativa();
+}
+async function adicionarNpcAoConflito(){
+  if(!masterUnlocked)return;
+  const sel=document.getElementById('conflito-add-npc-select');if(!sel||!sel.value)return;
+  camp().combateNpcs=camp().combateNpcs||[];
+  if(!camp().combateNpcs.includes(sel.value))camp().combateNpcs.push(sel.value);
+  await salvarDB();renderConflito();
+}
+async function removerNpcDoConflito(id){
+  if(!masterUnlocked)return;
+  camp().combateNpcs=(camp().combateNpcs||[]).filter(x=>x!==id);
+  if(conflitoSelecionado.tipo==='npc'&&conflitoSelecionado.id===id){conflitoSelecionado={tipo:null,id:null};mostrarPainelConflito(null);}
+  await salvarDB();renderConflito();
+}
+function mostrarPainelConflito(tipo){
+  const ph=document.getElementById('cf-placeholder'),cf=document.getElementById('cf-ficha-compacta'),cn=document.getElementById('cf-npc-compacta');
+  if(ph)ph.style.display=tipo?'none':'block';
+  if(cf)cf.style.display=tipo==='ficha'?'block':'none';
+  if(cn)cn.style.display=tipo==='npc'?'block':'none';
+}
+function selecionarPersonagemConflito(tipo,id){
+  if(tipo==='ficha'){
+    const f=camp().fichas&&camp().fichas[id];if(!f)return;
+    if(!masterUnlocked&&f.donoId!==currentPlayerId)return;
+    currentSheetId=id;currentAccess=masterUnlocked?'mestre':'jogador';currentSheet=JSON.parse(JSON.stringify(f));
+    migrarFicha(currentSheet);
+    carregarFichaNaTela();
+    conflitoSelecionado={tipo:'ficha',id};
+    mostrarPainelConflito('ficha');
+    renderCompactoFicha();
+  } else if(tipo==='npc'){
+    if(!masterUnlocked)return;
+    const n=camp().npcs&&camp().npcs[id];if(!n)return;
+    currentNpcId=id;currentNpc=JSON.parse(JSON.stringify(n));
+    if(!Array.isArray(currentNpc.habilidades))currentNpc.habilidades=[];
+    if(!Array.isArray(currentNpc.especiais))currentNpc.especiais=[];
+    carregarNpcNaTela();
+    conflitoSelecionado={tipo:'npc',id};
+    mostrarPainelConflito('npc');
+    renderCompactoNpc();
+  }
+  atualizarTabs();
+  renderConflito();
+}
+function renderCompactoFicha(){
+  const nomeEl=document.getElementById('cf-ficha-nome');if(nomeEl)nomeEl.textContent=currentSheet.f_nome||'Personagem';
+  const metaEl=document.getElementById('cf-ficha-meta');if(metaEl)metaEl.textContent=`${currentSheet.f_cla||'—'} · ${currentSheet.f_geracao||'—'} · Jogador: ${nomeDoJogador(currentSheet.donoId)||currentSheet.f_jogador||'—'}`;
+  popularSelectsRolagemCompacta();
+  const ccDif=document.getElementById('cc-r-dif');if(ccDif)ccDif.value=dificuldadeAtualMesa();
+  const ccwpDif=document.getElementById('ccwp-r-dif');if(ccwpDif)ccwpDif.value=dificuldadeAtualMesa();
+  recalcDerived();renderTrackers();
+  renderFomeDots('cc-fome-dots',currentSheet.fome??1,v=>{currentSheet.fome=v;renderCompactoFicha();carregarFichaNaTela();autoSave()});
+  buildDiscs();
+  buildVD('cc-vd-list');
+  buildEquip();
+  renderDots('cc-bp-dots',bpMaximaAtual(),currentSheet.blood_potency||0,v=>{currentSheet.blood_potency=Math.min(v,bpMaximaAtual());renderCompactoFicha();carregarFichaNaTela();autoSave()});
+}
+function renderCompactoNpc(){
+  const nomeEl=document.getElementById('cf-npc-nome');if(nomeEl)nomeEl.textContent=currentNpc.nome||'NPC';
+  const metaEl=document.getElementById('cf-npc-meta');if(metaEl)metaEl.textContent=`${currentNpc.faccao||'Mortal'}${currentNpc.arquetipo?' · '+currentNpc.arquetipo:''}${currentNpc.nivelAmeaca?' · Nível de Ameaça '+currentNpc.nivelAmeaca:''}`;
+  const objEl=document.getElementById('cf-npc-objetivo');if(objEl)objEl.value=currentNpc.objetivo||'';
+  buildNpcPools();
+  renderNpcTrackers();
+  buildNpcHabilidades();
+  buildNpcEspeciais();
+  popularNpcRollSelects();
 }
 async function registrarRolagem(r){
   if(!currentCampaignId)return;

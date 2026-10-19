@@ -1178,7 +1178,7 @@ body.night-mode .va-res.suc,body.night-mode .va-res.crit{color:#6fbf6f}body.nigh
 /* ==========================================================================
    Cartas (estilo carta de colecionar): moldura de prata com manchas de sangue
    ========================================================================== */
-.vcarta{--w:168px;position:relative;width:var(--w);aspect-ratio:63/88;border-radius:1px;padding:calc(var(--w)*.03);
+.vcarta{--w:196px;position:relative;width:var(--w);aspect-ratio:5/6;border-radius:1px;padding:calc(var(--w)*.03);
   background:repeating-linear-gradient(90deg,rgba(255,255,255,.05) 0 1px,rgba(0,0,0,.05) 1px 3px),linear-gradient(160deg,#8d9298 0%,#52575d 22%,#7b8086 45%,#3d4146 70%,#6f7479 100%);
   box-shadow:0 0 0 1px #14100f,inset 0 0 0 1px rgba(255,255,255,.28),inset 0 0 0 3px rgba(0,0,0,.35),0 8px 18px rgba(0,0,0,.5);flex:none;font-family:'EB Garamond',serif;user-select:none}
 .vcarta::before{content:'';position:absolute;inset:3px;pointer-events:none;z-index:2;
@@ -1199,10 +1199,10 @@ body.night-mode .va-res.suc,body.night-mode .va-res.crit{color:#6fbf6f}body.nigh
 .vcarta.defeito .vc-moldura{background:#170e0f}
 .vcarta.defeito .vc-titulo{color:#e2c9c9}
 .vcarta.disciplina .vc-arte{background-color:#22100f}
-.vcarta.mini{--w:78px}
+.vcarta.mini{--w:86px}
 .vcarta.mini .vc-texto,.vcarta.mini .vc-tipo,.vcarta.mini .vc-rodape{display:none}
 .vcarta.mini .vc-titulo{font-size:8px;padding:.1em 0 .2em}
-.vcarta.grande{--w:min(300px,80vw)}
+.vcarta.grande{--w:min(360px,86vw)}
 /* visualizador */
 .vtm-carta-ov{position:fixed;inset:0;z-index:2100;background:radial-gradient(ellipse at center,rgba(30,6,8,.82),rgba(0,0,0,.92));display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s}
 .vtm-carta-ov.on{opacity:1;pointer-events:auto}
@@ -1229,7 +1229,7 @@ body.night-mode .va-res.suc,body.night-mode .va-res.crit{color:#6fbf6f}body.nigh
 .vmodo button{border:none;background:var(--surface2);color:var(--ink);font-family:'EB Garamond',serif;font-size:.85rem;padding:.25rem .65rem;cursor:pointer}
 .vmodo button.on{background:var(--blood);color:var(--bone)}
 .vdl-lista.lista{display:flex;flex-direction:column;gap:.35rem}
-.vdl-lista.baralho{display:grid;grid-template-columns:repeat(auto-fill,minmax(176px,1fr));gap:1rem;justify-items:center;padding:.4rem 0 1rem}
+.vdl-lista.baralho{display:grid;grid-template-columns:repeat(auto-fill,minmax(206px,1fr));gap:1rem;justify-items:center;padding:.4rem 0 1rem}
 .vdl-carta{position:relative;cursor:pointer;transition:transform .18s cubic-bezier(.2,1.2,.4,1)}
 .vdl-carta:hover{transform:translateY(-4px) rotate(-1deg)}
 .vdl-rolar{position:absolute;bottom:-12px;left:50%;transform:translateX(-50%);white-space:nowrap;z-index:2}
@@ -1277,7 +1277,7 @@ body.night-mode .va-res.suc,body.night-mode .va-res.crit{color:#6fbf6f}body.nigh
 .vcat-item small{display:block;color:var(--muted);font-size:.86rem;line-height:1.3;margin-top:.15rem}
 .vcat-item em{font-size:.75rem;color:var(--gold)}
 .vcat-rodape{display:flex;justify-content:flex-end;margin-top:.6rem}
-@media (max-width:640px){.vdl-cat{display:none}.vdl-lista.baralho{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}.vdl-lista.baralho .vcarta{--w:140px}.vtm-mesa-pilha{right:8px;bottom:10px}}
+@media (max-width:640px){.vdl-cat{display:none}.vdl-lista.baralho{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}.vdl-lista.baralho .vcarta{--w:158px}.vtm-mesa-pilha{right:8px;bottom:10px}}
 
 /* ==========================================================================
    Diário da Crônica
@@ -1763,6 +1763,95 @@ body.night-mode .vpc-pop small,body.night-mode .vpc-vazio{color:#b9a59a}
 .toast{right:auto!important;left:50%;bottom:1.2rem!important;transform:translate(-50%,10px)!important;max-width:min(560px,calc(100vw - 32px));text-align:center}
 .toast.show{transform:translate(-50%,0)!important}
 .fe-surto{flex-wrap:nowrap!important}.fe-surto>span{white-space:nowrap}
+
+/* ===== Login por e-mail ===== */
+.auth-box .field label small{font-weight:normal;opacity:.7;letter-spacing:0;text-transform:none}
+.va-escolha{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid #4a2626;border-radius:6px;overflow:hidden;margin:.4rem 0 .8rem}
+.va-escolha button{border:0;background:#141010;color:#b9a59a;padding:.55rem .4rem;font-family:'EB Garamond',serif;font-size:.92rem;cursor:pointer;line-height:1.2}
+.va-escolha button.on{background:#7a1420;color:#fff}
+.va-dica{font-size:.92rem;color:#c9b8ac;margin:.2rem 0 .7rem;line-height:1.4}
+.va-link{background:none;border:0;color:#d4a94a;cursor:pointer;font-family:'EB Garamond',serif;font-size:.92rem;padding:.2rem 0;margin-top:.6rem;text-decoration:underline;text-underline-offset:3px}
+.va-link:hover{color:#ecd07a}
+.va-aviso{margin-top:1rem;padding:.6rem .7rem;border:1px dashed #6b3030;border-radius:6px;font-size:.9rem;color:#c9b8ac;line-height:1.4}
+.va-aviso .va-link{margin-top:.2rem;display:inline-block}
+.va-carregando{text-align:center;color:#b9a59a;font-style:italic;padding:1.5rem 0}
+.auth-box #va-form .btn[disabled]{opacity:.65;cursor:wait}
+
+/* ===== 🃏 Arcanos ===== */
+.varc{--w:188px;position:relative;width:var(--w);aspect-ratio:4/5;border-radius:6px;overflow:hidden;background:#120707;cursor:pointer;flex:none;outline:none;
+  box-shadow:0 0 0 1px #3a0d12,0 0 0 3px rgba(150,20,32,.3),0 0 16px 3px rgba(196,20,40,.3),0 10px 22px rgba(0,0,0,.5);animation:varcBrilho 3.8s ease-in-out infinite;transition:transform .2s}
+@keyframes varcBrilho{0%,100%{box-shadow:0 0 0 1px #3a0d12,0 0 0 3px rgba(150,20,32,.28),0 0 14px 2px rgba(196,20,40,.26),0 10px 22px rgba(0,0,0,.5)}50%{box-shadow:0 0 0 1px #4a1018,0 0 0 3px rgba(170,24,38,.4),0 0 26px 6px rgba(210,26,46,.42),0 10px 22px rgba(0,0,0,.5)}}
+.varc:hover,.varc:focus-visible{transform:translateY(-3px)}
+.varc-arte{position:absolute;inset:0;background:#120707 center/cover no-repeat;transition:filter .3s}
+.varc-faixa{position:absolute;left:0;right:0;bottom:0;padding:1.6em .7em .55em;background:linear-gradient(180deg,transparent,rgba(8,2,3,.9) 55%);display:flex;align-items:baseline;gap:.45em;color:#efe4d4;font-family:'Cinzel',serif;pointer-events:none}
+.varc-num{color:#d4505c;font-size:calc(var(--w)*.072);letter-spacing:.05em;flex:none}
+.varc-nome{font-size:calc(var(--w)*.084);letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.varc-desc{position:absolute;left:.55em;right:.55em;bottom:.55em;max-height:calc(100% - 1.1em);overflow:auto;background:rgba(14,6,7,.95);border:1px solid rgba(212,80,92,.55);border-radius:5px;padding:.6em .75em;color:#e9dfd2;font-family:'EB Garamond',serif;font-size:max(12px,calc(var(--w)*.06));line-height:1.38;opacity:0;transform:translateY(8px);transition:opacity .2s,transform .2s;pointer-events:none;text-align:left;scrollbar-width:thin;z-index:2}
+.varc:hover .varc-desc,.varc:focus-visible .varc-desc,.varc.ver .varc-desc{opacity:1;transform:none;pointer-events:auto}
+.varc-desc b{font-family:'Cinzel',serif;color:#ecd07a;display:block;margin-bottom:.25em;font-size:1.02em}
+.varc-desc p{margin:.3em 0}
+.varc-desc p span{display:block;font-family:'Cinzel',serif;font-size:.76em;letter-spacing:.07em;color:#e0636e;text-transform:uppercase}
+.varc.gasta{animation:none;box-shadow:0 0 0 1px #3a3a3a,0 8px 18px rgba(0,0,0,.45)}
+.varc.gasta .varc-arte{filter:grayscale(1) brightness(.5)}
+.varc.gasta .varc-num{color:#9a9a9a}.varc.gasta .varc-nome{color:#c9c9c9}
+.varc-selo{position:absolute;top:.5em;right:.5em;font-family:'Cinzel',serif;font-size:max(10px,calc(var(--w)*.052));background:rgba(0,0,0,.72);border:1px solid #777;color:#ddd;padding:.1em .45em;border-radius:3px;letter-spacing:.08em;text-transform:uppercase;pointer-events:none}
+.varc.vazia{animation:none;box-shadow:none;background:transparent;border:2px dashed var(--border);display:flex;align-items:center;justify-content:center;text-align:center;padding:1.2em;color:var(--muted);font-style:italic;font-size:.95rem;line-height:1.35;cursor:default;transform:none!important}
+.varc.grande{--w:min(380px,84vw)}
+.varc.mini{--w:86px;animation:none;box-shadow:0 0 0 1px #3a0d12,0 0 12px 2px rgba(196,20,40,.45),0 6px 14px rgba(0,0,0,.5)}
+.varc.mini .varc-faixa{padding:1em .35em .3em}.varc.mini .varc-num{display:none}.varc.mini .varc-nome{font-size:9px}
+.varc-grade{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1.5rem 1rem;justify-items:center;padding:.7rem 0 1rem}
+.varc-cab{display:flex;align-items:baseline;gap:.8rem;flex-wrap:wrap}
+.varc-resumo{color:var(--muted);font-size:.92rem}
+.varc-efeitos{display:flex;flex-wrap:wrap;gap:.4rem;margin:.2rem 0 .4rem}
+.varc-ef{display:inline-flex;align-items:center;gap:.35rem;border:1px solid rgba(196,20,40,.5);background:rgba(196,20,40,.08);border-radius:5px;padding:.2rem .3rem .2rem .55rem;font-size:.9rem}
+.varc-ef button{border:0;background:transparent;color:var(--muted);cursor:pointer;font-size:.8rem;padding:0 .25rem}
+.varc-ef button:hover{color:var(--blood)}
+.varc-palco .varc{cursor:help}
+.varc-dica{color:#b9a59a;font-size:.85rem;font-style:italic}
+.varc-escolha{display:flex;flex-direction:column;gap:.45rem;align-items:stretch;min-width:min(340px,86vw)}
+.varc-escolha-tit{color:#e9dfd2;text-align:center;margin-bottom:.1rem}
+.varc-escolha .btn{display:flex;flex-direction:column;align-items:center;gap:.15rem;text-transform:none}
+.varc-escolha .btn small{font-family:'EB Garamond',serif;font-size:.78rem;opacity:.85;letter-spacing:0;font-weight:normal}
+.fe-arcano{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;gap:.35rem;border-top:1px dashed var(--border);padding-top:.45rem;margin-top:-.2rem}
+.fe-arc-guardado{border:1px solid rgba(196,20,40,.65);background:rgba(196,20,40,.12);color:var(--ink);border-radius:5px;padding:.15rem .55rem;font-family:'Cinzel',serif;font-size:.75rem;cursor:pointer;box-shadow:0 0 10px rgba(196,20,40,.25)}
+.fe-arc-ef{font-size:.8rem;color:var(--muted);border:1px solid var(--border);border-radius:5px;padding:.1rem .45rem}
+.vr-arc{flex-basis:100%;display:flex;flex-direction:column;gap:.25rem}
+.vr-arc-tog{color:#f0b9be}
+.vr-arc-sel{color:#f0b9be;margin-left:.4rem}
+.vmp-arcano .vmp-quem{bottom:-1.25rem}
+/* Narrador */
+.varc-grade.mestre{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+.varc-m-item{display:flex;flex-direction:column;align-items:center;gap:.45rem}
+.varc-m-info{font-size:.82rem;text-align:center}
+.varc-editor{display:grid;grid-template-columns:auto minmax(0,1fr);gap:1.4rem;align-items:start}
+.varc-ed-prev{display:flex;flex-direction:column;align-items:center;gap:.55rem;position:sticky;top:calc(var(--vtm-nav-h) + 60px)}
+.varc-ed-prev .varc{--w:min(300px,80vw)}
+.varc-ed-img{display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center}
+.varc-ed-form{display:flex;flex-direction:column;gap:.55rem}
+.varc-ed-form label{display:flex;flex-direction:column;gap:.2rem;font-size:.8rem;color:var(--muted);font-family:'Cinzel',serif;letter-spacing:.04em}
+.varc-ed-form input,.varc-ed-form textarea,.varc-ed-form select{padding:.38rem .55rem;border:1px solid var(--border);border-radius:3px;background:var(--surface2);font-family:'EB Garamond',serif;font-size:1rem;color:var(--ink);letter-spacing:0}
+.varc-ed-form textarea{resize:vertical}
+.varc-ed-linha{display:flex;gap:.5rem;align-items:flex-end;flex-wrap:wrap}
+.varc-ed-linha label{width:90px}.varc-ed-linha label.grow{flex:1;width:auto;min-width:150px}
+.varc-ed-ops{border:1px solid var(--border);border-radius:6px;padding:.6rem;display:flex;flex-direction:column;gap:.55rem;background:rgba(0,0,0,.03)}
+.varc-ed-ops-tit{font-family:'Cinzel',serif;font-size:.85rem;color:var(--ink)}
+.varc-ed-ops-tit small{font-family:'EB Garamond',serif;color:var(--muted);letter-spacing:0}
+.varc-ed-op{border-left:3px solid rgba(196,20,40,.55);padding:.35rem 0 .35rem .6rem;display:flex;flex-direction:column;gap:.35rem}
+.varc-ed-ef{display:flex;gap:.35rem;align-items:center;flex-wrap:wrap}
+.varc-ed-ef select{max-width:100%}
+.varc-ed-ef input[type=number]{width:62px}
+.varc-ed-op .va-link{align-self:flex-start;margin:0;color:var(--blood)}
+.varc-ed-acoes{display:flex;gap:.5rem;align-items:center}
+.varc-conceder .varc-c-cartas{display:flex;gap:.7rem;overflow-x:auto;padding:.6rem .3rem .9rem;scrollbar-width:thin}
+.varc-c-op{border:0;background:transparent;padding:0;cursor:pointer;border-radius:7px;outline-offset:3px;flex:none}
+.varc-c-op .varc.mini{--w:96px;animation:none;filter:saturate(.55) brightness(.8);transition:filter .2s,transform .2s}
+.varc-c-op:hover .varc.mini{filter:none}
+.varc-c-op.on .varc.mini{filter:none;transform:translateY(-4px);box-shadow:0 0 0 2px #ecd07a,0 0 18px 4px rgba(210,26,46,.5)}
+.varc-c-linha{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.varc-c-com{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.6rem}
+.varc-c-tem{display:inline-flex;align-items:center;gap:.3rem;border:1px solid rgba(196,20,40,.45);border-radius:5px;padding:.15rem .2rem .15rem .55rem;font-size:.88rem}
+@media (max-width:760px){.varc-editor{grid-template-columns:1fr}.varc-ed-prev{position:static}.varc-grade{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}.varc{--w:150px}.varc.grande{--w:min(340px,86vw)}}
+@media (prefers-reduced-motion:reduce){.varc{animation:none}}
 
 </style>
 </head>
@@ -2584,6 +2673,7 @@ body.night-mode .vpc-pop small,body.night-mode .vpc-vazio{color:#b9a59a}
 <!-- SDK do Firebase (necessário para o banco de dados compartilhado) -->
 <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js"></script>
 
 <script>
 // ====== FIREBASE: banco de dados compartilhado da mesa ======
@@ -7848,7 +7938,7 @@ function vtmRolarIniciativaDaFicha(){
 }
 
 /* ---------- Ficha em abas: painel de estado fixo + 6 abas ---------- */
-const VTM_ABAS_FICHA=[['geral','💪 Atributos'],['disc','🩸 Disciplinas'],['sangue','🌫 Sangue'],['vant','✦ Vantagens'],['pers','📜 Personagem'],['diario','📖 Diário'],['galeria','🖼 Galeria'],['rolar','🎲 Rolagens']];
+const VTM_ABAS_FICHA=[['geral','💪 Atributos'],['disc','🩸 Disciplinas'],['sangue','🌫 Sangue'],['vant','✦ Vantagens'],['pers','📜 Personagem'],['diario','📖 Diário'],['galeria','🖼 Galeria'],['rolar','🎲 Rolagens'],['arcanos','🃏 Arcanos']];
 const VTM_ABA_HOOKS={};// k -> função chamada ao abrir a aba
 function vtmGrupoDaSecao(t){
   t=normalizar(t);
@@ -7896,7 +7986,8 @@ function vtmMontarAbasFicha(main){
     pane('pers',['info','evol','det','hist','rel']),
     pane('diario',[mk('div','fe-host','<div id="ficha-diario-host"></div>')]),
     pane('galeria',[mk('div','fe-host','<div id="ficha-galeria-host"></div>')]),
-    pane('rolar',['rolar']));
+    pane('rolar',['rolar']),
+    pane('arcanos',[mk('div','fe-host','<div id="ficha-arcanos-host"></div>')]));
   vtmCompactarRolagens(main.querySelector('.ficha-pane[data-pane="rolar"]'));
   main.classList.add('fe-ficha');
   bar.addEventListener('click',ev=>{const b=ev.target.closest('[data-aba]');if(b)vtmAbaFicha(b.dataset.aba,true);});
@@ -9282,7 +9373,7 @@ function vtmMontarMestreLayout(){
   const barra=document.createElement('div');barra.className='vm-barra';barra.id='vm-barra';hero.appendChild(barra);
   // abas
   const nav=document.createElement('nav');nav.className='vm-abas';nav.id='vm-abas';
-  const abas=[['mesa','🧛 Mesa'],['npcs','👥 NPCs'],['recompensas','🏆 Recompensas'],['notas','📝 Notas & Diário'],['galeria','🖼 Galeria'],['cronica','⚙ Crônica']];
+  const abas=[['mesa','🧛 Mesa'],['npcs','👥 NPCs'],['recompensas','🏆 Recompensas'],['notas','📝 Notas & Diário'],['galeria','🖼 Galeria'],['arcanos','🃏 Arcanos'],['cronica','⚙ Crônica']];
   nav.innerHTML=abas.map(([k,r])=>`<button type="button" data-aba="${k}">${r}${k==='mesa'?' <span class="vm-cont" id="vtm-cont-fichas"></span>':k==='npcs'?' <span class="vm-cont" id="vtm-cont-npcs"></span>':''}</button>`).join('');
   hero.insertAdjacentElement('afterend',nav);
   const pane=(k)=>{const d=document.createElement('section');d.className='vm-pane';d.dataset.pane=k;shell.appendChild(d);return d;};
@@ -9295,6 +9386,7 @@ function vtmMontarMestreLayout(){
   const rec=pane('recompensas');if(pRec)rec.appendChild(pRec);
   const notas=pane('notas');const gn=document.createElement('div');gn.className='vm-notas-grid';notas.appendChild(gn);if(pNotas)gn.appendChild(pNotas);if(pDados)gn.appendChild(pDados);
   const gal=pane('galeria');gal.innerHTML='<div class="panel vgal-painel"><div id="vtm-galeria-mestre"></div></div>';
+  const arc=pane('arcanos');arc.innerHTML='<div class="panel varc-painel"><div id="vtm-arcanos-mestre"></div></div>';
   const cron=pane('cronica');[pCodigo,pDif,pCapa].forEach(x=>x&&cron.appendChild(x));
   // remove grids vazios que sobraram
   shell.querySelectorAll(':scope > .grid').forEach(g=>{if(!g.querySelector('.panel'))g.remove();});
@@ -11438,6 +11530,765 @@ const _vtmAbaFichaUX=vtmAbaFicha;
 vtmAbaFicha=function(){const r=_vtmAbaFichaUX.apply(this,arguments);try{vtmDicasAtalho();}catch(e){}return r;};
 const _vtmAbaMestreUX=vtmAbaMestre;
 vtmAbaMestre=function(){const r=_vtmAbaMestreUX.apply(this,arguments);try{vtmDicasAtalho();}catch(e){}return r;};
+
+/* ==========================================================================
+   VTM+ — Login por e-mail e senha (Firebase Authentication)
+   · As senhas deixam de ficar no documento da mesa.
+   · Contas antigas (usuário + senha) são transferidas na próxima entrada:
+     a pessoa cria o login por e-mail e informa o usuário e a senha antigos;
+     tudo o que era dela (fichas, crônicas, diário, galeria) continua ligado
+     ao mesmo nome de usuário.
+   · As senhas antigas viram um "resumo" embaralhado (vtm_legado/{usuário})
+     só para conferir a transferência, e são apagadas quando ela acontece.
+   ========================================================================== */
+const VA={uid:null,email:null,unsubDoc:null,tela:'carregando',pendente:null,resolvendo:false,migrando:false,tentativas:0,bloqueioAte:0};
+function vaAuth(){return firebase.auth();}
+function vaColUsu(){return firebase.firestore().collection('vtm_usuarios');}
+function vaColLeg(){return firebase.firestore().collection('vtm_legado');}
+
+/* ---------- resumo (hash) das senhas antigas: SHA-256 com sal, repetido ---------- */
+function vaSha256Js(bytes){ // reserva para quando o navegador não oferece crypto.subtle (ex.: página aberta como arquivo)
+  const K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+  const H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+  const l=bytes.length,n=((l+9+63)>>6)<<6,m=new Uint8Array(n);m.set(bytes);m[l]=0x80;
+  const bits=l*8;for(let i=0;i<8;i++)m[n-1-i]=(i<4?(bits>>>(i*8)):Math.floor(bits/2**32)>>>((i-4)*8))&255;
+  const w=new Uint32Array(64);const r=(x,k)=>(x>>>k)|(x<<(32-k));
+  for(let o=0;o<n;o+=64){
+    for(let i=0;i<16;i++)w[i]=(m[o+i*4]<<24)|(m[o+i*4+1]<<16)|(m[o+i*4+2]<<8)|m[o+i*4+3];
+    for(let i=16;i<64;i++){const s0=r(w[i-15],7)^r(w[i-15],18)^(w[i-15]>>>3),s1=r(w[i-2],17)^r(w[i-2],19)^(w[i-2]>>>10);w[i]=(w[i-16]+s0+w[i-7]+s1)|0;}
+    let [a,b,c,d,e,f,g,h]=H;
+    for(let i=0;i<64;i++){const S1=r(e,6)^r(e,11)^r(e,25),ch=(e&f)^(~e&g),t1=(h+S1+ch+K[i]+w[i])|0,S0=r(a,2)^r(a,13)^r(a,22),mj=(a&b)^(a&c)^(b&c),t2=(S0+mj)|0;h=g;g=f;f=e;e=(d+t1)|0;d=c;c=b;b=a;a=(t1+t2)|0;}
+    H[0]=(H[0]+a)|0;H[1]=(H[1]+b)|0;H[2]=(H[2]+c)|0;H[3]=(H[3]+d)|0;H[4]=(H[4]+e)|0;H[5]=(H[5]+f)|0;H[6]=(H[6]+g)|0;H[7]=(H[7]+h)|0;
+  }
+  const out=new Uint8Array(32);H.forEach((v,i)=>{out[i*4]=v>>>24;out[i*4+1]=(v>>>16)&255;out[i*4+2]=(v>>>8)&255;out[i*4+3]=v&255;});return out;
+}
+async function vaSha256(bytes){
+  try{if(window.crypto&&crypto.subtle)return new Uint8Array(await crypto.subtle.digest('SHA-256',bytes));}catch(e){}
+  return vaSha256Js(bytes);
+}
+const VA_ITER=3000;
+async function vaResumoSenha(senha,sal,iter){
+  const enc=new TextEncoder();let h=await vaSha256(enc.encode(sal+'|'+senha));
+  for(let i=1;i<(iter||VA_ITER);i++){const j=new Uint8Array(h.length+sal.length);j.set(h);j.set(enc.encode(sal).slice(0,sal.length),h.length);h=await vaSha256(j);}
+  return [...h].map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+function vaSal(){const a=new Uint8Array(12);(window.crypto||{}).getRandomValues?crypto.getRandomValues(a):a.forEach((_,i)=>a[i]=Math.random()*256|0);return [...a].map(b=>b.toString(16).padStart(2,'0')).join('');}
+
+/* ---------- mensagens ---------- */
+function vaTraduzErro(e){
+  const c=(e&&e.code)||'';
+  return ({
+    'auth/invalid-email':'Esse e-mail não parece válido.',
+    'auth/missing-email':'Escreva o seu e-mail.',
+    'auth/weak-password':'A senha precisa ter pelo menos 6 caracteres.',
+    'auth/email-already-in-use':'Já existe uma conta com esse e-mail. Use "Entrar".',
+    'auth/invalid-credential':'E-mail ou senha incorretos.',
+    'auth/wrong-password':'E-mail ou senha incorretos.',
+    'auth/user-not-found':'E-mail ou senha incorretos.',
+    'auth/user-disabled':'Essa conta foi desativada.',
+    'auth/too-many-requests':'Muitas tentativas. Espere um pouco e tente de novo.',
+    'auth/network-request-failed':'Sem conexão com a internet.',
+    'auth/operation-not-allowed':'O login por e-mail ainda não foi ativado no Firebase (Authentication → Método de login → E-mail/senha).',
+    'permission-denied':'O Firebase recusou o acesso. Confira as regras do Firestore.'
+  })[c]||('Não deu certo: '+((e&&e.message)||c||'erro desconhecido'));
+}
+
+/* ---------- tela de entrada ---------- */
+function vaCaixa(){return document.querySelector('#page-auth .auth-box');}
+function vaMontarTelaAuth(modo,opts){
+  opts=opts||{};VA.tela=modo;const box=vaCaixa();if(!box)return;
+  const cab=`<div class="auth-title">VAMPIRO: A MÁSCARA</div><div class="auth-sub">Zona D20 — entre na noite eterna</div>`;
+  const tabs=`<div class="auth-tabs"><div class="auth-tab ${modo==='entrar'?'active':''}" id="va-tab-entrar">Entrar</div><div class="auth-tab ${modo==='criar'?'active':''}" id="va-tab-criar">Criar conta</div></div>`;
+  const tipo=opts.tipo||VA.tipoEscolhido||'novo';VA.tipoEscolhido=tipo;
+  const escolha=`<div class="va-escolha" role="radiogroup">
+      <button type="button" data-va-tipo="novo" class="${tipo==='novo'?'on':''}" role="radio" aria-checked="${tipo==='novo'}">Primeira vez aqui</button>
+      <button type="button" data-va-tipo="antigo" class="${tipo==='antigo'?'on':''}" role="radio" aria-checked="${tipo==='antigo'}">Já jogava com usuário e senha</button></div>
+    ${tipo==='novo'?`<div class="field"><label>Nome de usuário <small>(como você aparece na mesa)</small></label><input id="va-nome" type="text" maxlength="24" autocomplete="nickname" value="${escapeHTML(opts.nome||'')}"/></div>`
+      :`<p class="va-dica">Informe o <b>usuário e a senha antigos</b>: suas fichas, crônicas e tudo mais passam para este login. A senha antiga deixa de existir.</p>
+        <div class="field"><label>Usuário antigo</label><input id="va-ant-user" type="text" autocomplete="off" value="${escapeHTML(opts.usuario||'')}"/></div>
+        <div class="field"><label>Senha antiga</label><input id="va-ant-senha" type="password" autocomplete="off"/></div>`}`;
+  const erro=`<div class="error" id="va-erro" style="${opts.erro?'display:block':''}">${escapeHTML(opts.erro||'')}</div>`;
+  let corpo='';
+  if(modo==='carregando')corpo=`<p class="va-carregando">Abrindo a noite eterna…</p>`;
+  else if(modo==='entrar')corpo=`${tabs}${erro}
+    <form id="va-form" novalidate>
+      <div class="field"><label>E-mail</label><input id="va-email" type="email" autocomplete="email" value="${escapeHTML(opts.email||'')}"/></div>
+      <div class="field"><label>Senha</label><input id="va-senha" type="password" autocomplete="current-password"/></div>
+      <button class="btn blood full" id="va-enviar" type="submit">Entrar</button>
+    </form>
+    <button type="button" class="va-link" id="va-esqueci">Esqueci minha senha</button>
+    <div class="va-aviso"><b>Já jogava antes com usuário e senha?</b> O login agora é por e-mail. <button type="button" class="va-link" id="va-ir-transferir">Transferir minha conta →</button></div>`;
+  else if(modo==='criar')corpo=`${tabs}${erro}
+    <form id="va-form" novalidate>
+      <div class="field"><label>E-mail</label><input id="va-email" type="email" autocomplete="email" value="${escapeHTML(opts.email||'')}"/></div>
+      <div class="field"><label>Senha nova <small>(mínimo 6 caracteres)</small></label><input id="va-senha" type="password" autocomplete="new-password"/></div>
+      <div class="field"><label>Repita a senha</label><input id="va-senha2" type="password" autocomplete="new-password"/></div>
+      ${escolha}
+      <button class="btn blood full" id="va-enviar" type="submit">${tipo==='antigo'?'Transferir minha conta':'Criar conta'}</button>
+    </form>`;
+  else if(modo==='perfil')corpo=`<p class="va-dica">Você entrou como <b>${escapeHTML(VA.email||'')}</b>. Falta só um passo:</p>${erro}
+    <form id="va-form" novalidate>${escolha}<button class="btn blood full" id="va-enviar" type="submit">Continuar</button></form>
+    <button type="button" class="va-link" id="va-sair">Usar outro e-mail</button>`;
+  box.innerHTML=cab+corpo;
+  const q=s=>box.querySelector(s);
+  if(opts.senha&&q('#va-senha'))q('#va-senha').value=opts.senha;
+  if(opts.senha2&&q('#va-senha2'))q('#va-senha2').value=opts.senha2;
+  const te=q('#va-tab-entrar'),tc=q('#va-tab-criar');
+  if(te)te.onclick=()=>vaMontarTelaAuth('entrar',{email:(q('#va-email')||{}).value});
+  if(tc)tc.onclick=()=>vaMontarTelaAuth('criar',{email:(q('#va-email')||{}).value});
+  box.querySelectorAll('[data-va-tipo]').forEach(b=>b.onclick=()=>{VA.tipoEscolhido=b.dataset.vaTipo;
+    const v=s=>(q(s)||{}).value;
+    vaMontarTelaAuth(modo,{email:v('#va-email'),senha:v('#va-senha'),senha2:v('#va-senha2'),nome:v('#va-nome'),usuario:v('#va-ant-user'),tipo:b.dataset.vaTipo,semFoco:true});
+    setTimeout(()=>{const f=box.querySelector(b.dataset.vaTipo==='novo'?'#va-nome':'#va-ant-user');if(f)f.focus();},20);});
+  const f=q('#va-form');
+  if(f)f.onsubmit=(e)=>{e.preventDefault();if(modo==='entrar')vaEntrar();else if(modo==='criar')vaCriarConta();else vaEnviarPerfil();};
+  const es=q('#va-esqueci');if(es)es.onclick=vaEsqueci;
+  const it=q('#va-ir-transferir');if(it)it.onclick=()=>vaMontarTelaAuth('criar',{email:(q('#va-email')||{}).value,tipo:'antigo'});
+  const sa=q('#va-sair');if(sa)sa.onclick=()=>vaAuth().signOut();
+  if(!opts.semFoco)setTimeout(()=>{const p=box.querySelector('#va-email')||box.querySelector('#va-nome,#va-ant-user');if(p&&!p.value)p.focus();},30);
+}
+function vaErro(msg){const e=document.getElementById('va-erro');if(!e)return;e.textContent=msg;e.style.display=msg?'block':'none';}
+function vaOcupado(on,txt){const b=document.getElementById('va-enviar');if(!b)return;if(on){b.dataset.txt=b.textContent;b.textContent=txt||'Um momento…';b.disabled=true;}else{b.textContent=b.dataset.txt||b.textContent;b.disabled=false;}}
+function vaLerEscolha(){
+  const tipo=VA.tipoEscolhido||'novo';
+  if(tipo==='novo'){const nome=((document.getElementById('va-nome')||{}).value||'').trim();
+    if(nome.length<2)return {erro:'Escolha um nome de usuário (pelo menos 2 letras).'};return {tipo,nome};}
+  const usuario=((document.getElementById('va-ant-user')||{}).value||'').trim(),senha=(document.getElementById('va-ant-senha')||{}).value||'';
+  if(!usuario||!senha)return {erro:'Informe o usuário e a senha antigos.'};return {tipo,usuario,senha};
+}
+
+/* ---------- ações ---------- */
+async function vaEntrar(){
+  const email=(document.getElementById('va-email').value||'').trim(),senha=document.getElementById('va-senha').value||'';
+  if(!email||!senha){vaErro('Preencha e-mail e senha.');return;}
+  if(!email.includes('@')){vaErro('O login agora é por e-mail. Se você usava um nome de usuário, clique em "Transferir minha conta".');return;}
+  vaErro('');vaOcupado(true,'Entrando…');
+  try{await vaAuth().signInWithEmailAndPassword(email,senha);}catch(e){vaOcupado(false);vaErro(vaTraduzErro(e));}
+}
+async function vaCriarConta(){
+  const email=(document.getElementById('va-email').value||'').trim(),senha=document.getElementById('va-senha').value||'',senha2=document.getElementById('va-senha2').value||'';
+  if(!email)return vaErro('Escreva o seu e-mail.');
+  if(senha.length<6)return vaErro('A senha nova precisa ter pelo menos 6 caracteres.');
+  if(senha!==senha2)return vaErro('As duas senhas não são iguais.');
+  const esc=vaLerEscolha();if(esc.erro)return vaErro(esc.erro);
+  vaErro('');vaOcupado(true,esc.tipo==='antigo'?'Transferindo…':'Criando…');
+  VA.pendente=esc;
+  try{await vaAuth().createUserWithEmailAndPassword(email,senha);}
+  catch(e){VA.pendente=null;vaOcupado(false);vaErro(vaTraduzErro(e));}
+}
+async function vaEnviarPerfil(){
+  const esc=vaLerEscolha();if(esc.erro)return vaErro(esc.erro);
+  vaErro('');vaOcupado(true);
+  const r=await vaConcluirPerfil(esc);
+  if(!r.ok){vaOcupado(false);vaErro(r.msg);}
+}
+async function vaEsqueci(){
+  const el=document.getElementById('va-email');const email=((el&&el.value)||'').trim();
+  if(!email.includes('@')){vaErro('Escreva o seu e-mail no campo acima e clique de novo em "Esqueci minha senha".');if(el)el.focus();return;}
+  try{await vaAuth().sendPasswordResetEmail(email);vaErro('');toast('Se existir uma conta com esse e-mail, enviamos um link para criar uma senha nova. Confira também o spam.');}
+  catch(e){if(e&&e.code==='auth/user-not-found')toast('Se existir uma conta com esse e-mail, enviamos um link para criar uma senha nova.');else vaErro(vaTraduzErro(e));}
+}
+
+/* ---------- perfil: liga o login (uid) a um nome de usuário da mesa ---------- */
+async function vaConcluirPerfil(esc){
+  const r=esc.tipo==='antigo'?await vaReivindicar(esc.usuario,esc.senha):await vaNovoPerfil(esc.nome);
+  if(r.ok){vaEntrarComo(r.username);if(esc.tipo==='antigo')setTimeout(()=>toast(`Conta transferida! Bem-vindo(a) de volta, ${r.username}. Agora é só entrar com o e-mail.`),300);}
+  return r;
+}
+async function vaNovoPerfil(nome){
+  nome=String(nome||'').trim().slice(0,24);const key=normalizar(nome);
+  if(!key)return {ok:false,msg:'Escolha um nome de usuário.'};
+  if(!db.usuarios)db.usuarios={};
+  const ex=db.usuarios[key];
+  if(ex&&ex.uid!==VA.uid)return {ok:false,msg:ex.uid?'Esse nome já está em uso. Escolha outro.':'Esse nome pertence a uma conta antiga. Se for sua, escolha "Já jogava com usuário e senha".'};
+  db.usuarios[key]={username:nome,uid:VA.uid,email:VA.email,criadoEm:Date.now()};
+  salvarDB();
+  try{await vaColUsu().doc(VA.uid).set({username:nome,email:VA.email,criadoEm:Date.now()});}catch(e){console.warn(e);}
+  return {ok:true,username:nome};
+}
+async function vaReivindicar(usuario,senha){
+  if(Date.now()<VA.bloqueioAte)return {ok:false,msg:'Muitas tentativas. Espere meio minuto e tente de novo.'};
+  const key=normalizar(usuario);const u=(db.usuarios||{})[key];
+  if(!u)return {ok:false,msg:'Não encontrei esse usuário antigo. Confira como ele era escrito.'};
+  if(u.uid&&u.uid!==VA.uid)return {ok:false,msg:'Essa conta já foi transferida para outro e-mail. Entre com ele (ou use "Esqueci minha senha").'};
+  if(u.uid===VA.uid)return {ok:true,username:u.username};
+  let certo=false;
+  if(typeof u.senha==='string')certo=u.senha===senha; // ainda não migrada para o resumo
+  else{
+    try{const s=await vaColLeg().doc(key).get();
+      if(!s.exists)return {ok:false,msg:'Não achei os dados da senha antiga dessa conta. Peça ao Narrador para ajudar.'};
+      const d=s.data();certo=(await vaResumoSenha(senha,d.sal,d.iter))===d.resumo;}
+    catch(e){return {ok:false,msg:vaTraduzErro(e)};}
+  }
+  if(!certo){VA.tentativas++;if(VA.tentativas>=5){VA.tentativas=0;VA.bloqueioAte=Date.now()+30000;}return {ok:false,msg:'Senha antiga incorreta.'};}
+  VA.tentativas=0;
+  const novo={username:u.username,uid:VA.uid,email:VA.email,criadoEm:u.criadoEm||Date.now(),migradoEm:Date.now()};
+  db.usuarios[key]=novo;salvarDB();
+  try{await vaColUsu().doc(VA.uid).set({username:u.username,email:VA.email,criadoEm:novo.criadoEm});}catch(e){console.warn(e);}
+  vaColLeg().doc(key).delete().catch(()=>{});
+  return {ok:true,username:u.username};
+}
+function vaEntrarComo(username){
+  currentUser={username};
+  try{localStorage.removeItem('vtm_zona_user');}catch(e){}
+  abrirHub();
+}
+
+/* ---------- senhas antigas em texto puro → resumo embaralhado (roda uma vez, sozinho) ---------- */
+async function vaMigrarSenhasAntigas(){
+  if(VA.migrando||!db||!db.usuarios)return;
+  const chaves=Object.keys(db.usuarios).filter(k=>db.usuarios[k]&&typeof db.usuarios[k].senha==='string');
+  if(!chaves.length)return;
+  VA.migrando=true;
+  try{
+    // cópia de segurança dos dados (sem as senhas), uma única vez
+    try{const bref=firebase.firestore().collection('vtm_backup').doc('antes_do_login_por_email');const b=await bref.get();
+      if(!b.exists){const copia=JSON.parse(JSON.stringify(db));Object.values(copia.usuarios||{}).forEach(u=>{delete u.senha;});
+        await bref.set({estado:JSON.stringify(copia),criadoEm:Date.now()});}}catch(e){console.warn('backup',e);}
+    const feitas=[];
+    for(const k of chaves){
+      const u=db.usuarios[k];if(!u||typeof u.senha!=='string')continue;
+      try{const ref=vaColLeg().doc(k);const s=await ref.get();
+        if(!s.exists){const sal=vaSal();await ref.set({username:u.username,sal,iter:VA_ITER,resumo:await vaResumoSenha(u.senha,sal,VA_ITER),criadoEm:Date.now()});}
+        feitas.push(k);}catch(e){console.warn('legado',k,e);}
+    }
+    feitas.forEach(k=>{if(db.usuarios[k])delete db.usuarios[k].senha;});
+    if(feitas.length)salvarDB();
+  }finally{VA.migrando=false;}
+}
+
+/* ---------- conexão: só lê a mesa depois do login ---------- */
+function vaPararDoc(){if(VA.unsubDoc){try{VA.unsubDoc();}catch(e){}VA.unsubDoc=null;}}
+function vaAssinarDoc(){
+  vaPararDoc();
+  VA.unsubDoc=docRef.onSnapshot(snap=>{
+    const dados=snap.data();
+    aplicarDadosRecebidos(dados&&dados.estado?JSON.parse(dados.estado):{campanhas:{},usuarios:{}});
+    vaAposDados();
+  },erro=>{
+    console.error('Erro de conexão com o Firebase:',erro);
+    if(!currentUser)vaMontarTelaAuth('entrar',{erro:erro&&erro.code==='permission-denied'?'O Firebase recusou a leitura. Confira se as regras novas foram publicadas.':'Não foi possível conectar ao Firebase.'});
+    else toast('Não foi possível conectar ao Firebase. Veja o console (F12) e revise sua configuração/regras.');
+  });
+}
+async function vaAposDados(){
+  if(!VA.uid)return;
+  vaMigrarSenhasAntigas();
+  if(currentUser||VA.resolvendo)return;
+  if(VA.tela==='perfil'&&!VA.pendente)return;
+  VA.resolvendo=true;
+  try{
+    let username=null;
+    try{const s=await vaColUsu().doc(VA.uid).get();if(s.exists)username=(s.data()||{}).username||null;}catch(e){console.warn(e);}
+    if(!username){const k=Object.keys(db.usuarios||{}).find(k=>(db.usuarios[k]||{}).uid===VA.uid);
+      if(k){username=db.usuarios[k].username;vaColUsu().doc(VA.uid).set({username,email:VA.email},{merge:true}).catch(()=>{});}}
+    if(!VA.uid||currentUser)return;
+    if(username){vaEntrarComo(username);return;}
+    if(VA.pendente){const p=VA.pendente;VA.pendente=null;const r=await vaConcluirPerfil(p);
+      if(!r.ok)vaMontarTelaAuth('perfil',{erro:r.msg,tipo:p.tipo,nome:p.nome,usuario:p.usuario,semFoco:false});return;}
+    vaMontarTelaAuth('perfil');showPage('auth');
+  }finally{VA.resolvendo=false;}
+}
+carregarDB=function(){
+  vaMontarTelaAuth('carregando');
+  vaAuth().onAuthStateChanged(user=>{
+    if(!user){
+      vaPararDoc();VA.uid=null;VA.email=null;VA.pendente=null;
+      if(currentUser){currentUser=null;currentCampaignId=null;currentSheetId=null;currentSheet={};currentPlayerId=null;currentPlayerName='';masterUnlocked=false;}
+      db={campanhas:{},usuarios:{}};
+      vaMontarTelaAuth('entrar');showPage('auth');return;
+    }
+    const mesmo=VA.uid===user.uid;VA.uid=user.uid;VA.email=user.email;
+    if(!mesmo||!VA.unsubDoc)vaAssinarDoc();
+  });
+};
+// os fluxos antigos passam a usar o login novo
+tentarRestaurarSessao=function(){};
+fazerLogin=function(){vaMontarTelaAuth('entrar');};
+fazerCriarConta=function(){vaMontarTelaAuth('criar');};
+const _vaSairConta=sairConta;
+sairConta=function(){
+  try{if(typeof abrirHub==='function'&&VTM_AVISOS_UNSUB){VTM_AVISOS_UNSUB();VTM_AVISOS_UNSUB=null;VTM_AVISOS_CAMP=null;}}catch(e){}
+  try{if(typeof vtmDesassinarDiario==='function')vtmDesassinarDiario();if(typeof vtmGalDesassinar==='function')vtmGalDesassinar();}catch(e){}
+  _vaSairConta();
+  vaAuth().signOut().catch(e=>console.warn(e));
+};
+
+/* ==========================================================================
+   VTM+ — 🃏 Arcanos: cartas especiais concedidas pelo Narrador
+   · O Narrador personaliza as cartas (aba Arcanos da Área do Mestre) e as
+     concede em Recompensas. Cada personagem guarda um Arcano por vez.
+   · Na ficha (aba Arcanos), as não descobertas são um espaço tracejado; as já
+     recebidas aparecem; as gastas ficam cinza, mas continuam ali.
+   · "Usar Carta" aplica o efeito na ficha: na hora (Fome, Manchas, dano…) ou
+     armado para a próxima rolagem (dados, sucessos, Checagem garantida…).
+   Dados: camp().arcanos {id:{...}} · ficha.arcano_atual · ficha.arcanos_conhecidos
+          · ficha.arcano_efeitos [efeitos armados]
+   ========================================================================== */
+
+/* ---------- tipos de efeito automatizado ---------- */
+const VTM_ARC_TIPOS={
+  dados:{nome:'+N dados na próxima rolagem',n:true,filtro:true,armado:true},
+  sucessos:{nome:'+N sucessos na próxima rolagem',n:true,filtro:true,armado:true},
+  falha_sucesso:{nome:'A próxima falha vira sucesso',filtro:true,armado:true},
+  falha_sucesso_total:{nome:'Sucesso garantido no próximo teste (até Falha Bestial)',filtro:true,armado:true},
+  critico:{nome:'O próximo sucesso vira Crítico',filtro:true,armado:true},
+  rouse_auto:{nome:'A próxima Checagem de Sangue passa sozinha',armado:true},
+  surto_gratis:{nome:'Surto de Sangue sem Checagem na próxima rolagem',armado:true},
+  cena_dados:{nome:'+N dados durante a cena (até encerrar)',n:true,filtro:true,armado:true,cena:true},
+  cura_fv:{nome:'Cura N de dano Superficial na Força de Vontade',n:true},
+  cura_vit:{nome:'Cura N de dano Superficial na Vitalidade',n:true},
+  agravado_superficial:{nome:'Converte N de dano Agravado em Superficial',n:true},
+  manchas:{nome:'Remove N Mancha(s)',n:true},
+  fome:{nome:'Sacia N de Fome',n:true},
+  nota:{nome:'Só narrativo (o Narrador aplica)'}
+};
+const VTM_ARC_FILTROS={qualquer:'qualquer rolagem',fisico:'testes Físicos',social:'testes Sociais',mental:'testes Mentais',disciplina:'rolagens de Disciplina',
+  furtividade:'Furtividade ou Ofuscação',dominacao_lideranca:'Dominação ou Liderança',auspicios_invest:'Auspícios, Investigação ou Ocultismo'};
+
+/* ---------- os Arcanos do livro da crônica (o Narrador pode mudar tudo) ---------- */
+const VTM_ARC_PADRAO=[
+  {id:'louco',num:'0',nome:'O Louco',simbolo:'✧',titulo:'Salto no Escuro',
+   egide:'Agir por puro impulso, assumir um risco absurdo sem planejar ou lançar-se no desconhecido.',
+   efeito:'Adiciona +3 dados a uma parada de Atributo + Habilidade não treinada ou de improviso, ou converte uma Falha comum em um Sucesso simples.',
+   opcoes:[{rotulo:'+3 dados no improviso',efeitos:[{tipo:'dados',n:3,filtro:'qualquer'}]},{rotulo:'A próxima Falha vira Sucesso',efeitos:[{tipo:'falha_sucesso',filtro:'qualquer'}]}]},
+  {id:'mago',num:'I',nome:'O Mago',simbolo:'∞',titulo:'Domínio do Vitae',
+   egide:'Executar uma ação engenhosa usando Disciplinas, Feitiçaria de Sangue ou Alquimia Sangue-Ralo.',
+   efeito:'Garante sucesso automático em uma Checagem de Sangue ao ativar um poder ou ritual, ou adiciona +2 dados à parada da Disciplina.',
+   opcoes:[{rotulo:'Checagem de Sangue garantida',efeitos:[{tipo:'rouse_auto'}]},{rotulo:'+2 dados na Disciplina',efeitos:[{tipo:'dados',n:2,filtro:'disciplina'}]}]},
+  {id:'sacerdotisa',num:'II',nome:'A Sacerdotisa',simbolo:'☽',titulo:'Véu dos Segredos',
+   egide:'Investigar mistérios profundos, decifrar intenções ocultas ou agir com base em intuição e Ocultismo.',
+   efeito:'Concede +2 dados para resistir a poderes mentais (como Dominação ou Presença) ou garante 2 sucessos adicionais em testes de Auspícios ou Investigação Oculta.',
+   opcoes:[{rotulo:'+2 dados para resistir a poder mental',efeitos:[{tipo:'dados',n:2,filtro:'qualquer'}]},{rotulo:'+2 sucessos em Auspícios/Investigação',efeitos:[{tipo:'sucessos',n:2,filtro:'auspicios_invest'}]}]},
+  {id:'imperatriz',num:'III',nome:'A Imperatriz',simbolo:'♀',titulo:'Abundância',
+   egide:'Exercer fascínio, seduzir ou arriscar-se para proteger ou nutrir seu Rebanho, Aliados ou mortais.',
+   efeito:'Recupera instantaneamente 1 ponto de dano Superficial à Força de Vontade e concede +2 dados em testes Sociais na cena.',
+   opcoes:[{rotulo:'Usar Abundância',efeitos:[{tipo:'cura_fv',n:1},{tipo:'cena_dados',n:2,filtro:'social'}]}]},
+  {id:'imperador',num:'IV',nome:'O Imperador',simbolo:'♃',titulo:'Comando Soberano',
+   egide:'Impor a lei, defender a autoridade do seu Domínio ou comandar outros Membros e mortais com firmeza.',
+   efeito:'Adiciona +2 dados em testes de Dominação ou Liderança, ou reduz em 2 a Dificuldade de uma disputa Social contra subordinados.',
+   opcoes:[{rotulo:'+2 dados em Dominação/Liderança',efeitos:[{tipo:'dados',n:2,filtro:'dominacao_lideranca'}]},{rotulo:'Dificuldade −2 contra subordinados',efeitos:[{tipo:'nota'}]}]},
+  {id:'hierofante',num:'V',nome:'O Hierofante',simbolo:'✠',titulo:'Dogma Inabalável',
+   egide:'Defender as Tradições da seita, proteger a Máscara ou agir estritamente alinhado a uma Convicção do personagem.',
+   efeito:'Permite rerrolar até 3 dados comuns em um teste de manutenção da Máscara ou Status, ou reduz em 1 a Mancha ganha por uma ação.',
+   opcoes:[{rotulo:'Rerrolar até 3 dados (Máscara/Status)',efeitos:[{tipo:'nota'}]},{rotulo:'Remover 1 Mancha',efeitos:[{tipo:'manchas',n:1}]}]},
+  {id:'enamorados',num:'VI',nome:'Os Enamorados',simbolo:'♡',titulo:'Vínculo Imortal',
+   egide:'Proteger diretamente uma Pedra de Toque, honrar um Laço de Sangue ou cooperar intimamente com a coterie.',
+   efeito:'Concede 2 sucessos automáticos à ação de um aliado na cena ou remove 1 Mancha ganha ao defender sua Pedra de Toque.',
+   opcoes:[{rotulo:'2 sucessos para um aliado',efeitos:[{tipo:'nota'}]},{rotulo:'Remover 1 Mancha',efeitos:[{tipo:'manchas',n:1}]}]},
+  {id:'carro',num:'VII',nome:'O Carro',simbolo:'⚔',titulo:'Impulso Implacável',
+   egide:'Avançar obstinadamente contra perigos físicos, perseguições intensas ou momentos de combate direto.',
+   efeito:'Permite realizar um Surto de Sangue sem Checagem de Sangue e ignora penalidades de dano Superficial na cena.',
+   opcoes:[{rotulo:'Usar Impulso Implacável',efeitos:[{tipo:'surto_gratis'},{tipo:'nota'}]}]},
+  {id:'forca',num:'VIII',nome:'A Força',simbolo:'♌',titulo:'Subjugar a Besta',
+   egide:'Dominar a Besta interior, resistir a uma provocação avassaladora ou manter a calma diante do pavor.',
+   efeito:'Garante sucesso automático em um teste para resistir ao Frenesi (Fúria, Fome ou Terror/Rötschreck).',
+   opcoes:[{rotulo:'Resistir ao Frenesi',efeitos:[{tipo:'falha_sucesso_total',filtro:'qualquer'}]}]},
+  {id:'eremita',num:'IX',nome:'O Eremita',simbolo:'✶',titulo:'Sombra Solitária',
+   egide:'Mover-se sozinho pelas sombras, agir isoladamente da coterie ou buscar refúgio silencioso.',
+   efeito:'Adiciona +3 dados em testes de Furtividade ou Ofuscação, ou torna o vampiro indetectável por sentidos comuns durante 1 turno.',
+   opcoes:[{rotulo:'+3 dados em Furtividade/Ofuscação',efeitos:[{tipo:'dados',n:3,filtro:'furtividade'}]},{rotulo:'Indetectável por 1 turno',efeitos:[{tipo:'nota'}]}]},
+  {id:'morte',num:'XIII',nome:'A Morte',simbolo:'☠',titulo:'Renovação Drástica',
+   egide:'Aceitar a ruína de algo, romper um laço definitivo ou agir sem hesitação em situações de vida ou morte.',
+   efeito:'Converte 2 pontos de dano Agravado recebidos em dano Superficial, ou adiciona +2 de dano extra em um ataque físico ou místico decisivo.',
+   opcoes:[{rotulo:'2 Agravado → Superficial',efeitos:[{tipo:'agravado_superficial',n:2}]},{rotulo:'+2 de dano num ataque decisivo',efeitos:[{tipo:'nota'}]}]},
+  {id:'mundo',num:'XXI',nome:'O Mundo',simbolo:'⊕',titulo:'Plenitude do Domínio',
+   egide:'Concluir um objetivo ou projeto central da crônica ou agir em harmonia perfeita com o ambiente e a cidade.',
+   efeito:'Sacia 1 ponto de Fome misticamente, sem necessidade de alimentação, ou transforma um sucesso comum em uma Vitória Crítica.',
+   opcoes:[{rotulo:'Saciar 1 de Fome',efeitos:[{tipo:'fome',n:1}]},{rotulo:'O próximo sucesso vira Crítico',efeitos:[{tipo:'critico',filtro:'qualquer'}]}]}
+];
+
+/* ---------- acesso aos dados ---------- */
+function vtmArcMapa(){
+  if(!currentCampaignId||!camp())return {};
+  if(camp().arcanos)return camp().arcanos;
+  const m={};VTM_ARC_PADRAO.forEach((a,i)=>m[a.id]=Object.assign(JSON.parse(JSON.stringify(a)),{ordem:i}));return m;
+}
+function vtmArcLista(){const m=vtmArcMapa();return Object.keys(m).map(id=>Object.assign({id},m[id])).sort((a,b)=>(a.ordem??99)-(b.ordem??99)||String(a.nome).localeCompare(String(b.nome),'pt-BR'));}
+function vtmArcGet(id){const m=vtmArcMapa();return m[id]?Object.assign({id},m[id]):null;}
+function vtmArcSemear(){if(masterUnlocked&&currentCampaignId&&camp()&&!camp().arcanos){camp().arcanos=vtmArcMapa();salvarDB();}}
+function vtmArcFicha(fid){return currentSheet&&currentSheetId===fid?currentSheet:(camp().fichas||{})[fid];}
+async function vtmArcSalvarFicha(f){
+  if(currentSheet&&f===currentSheet){await saveSheet(true);}
+  else{const id=f.id;if(currentSheet&&currentSheetId===id&&currentSheet!==f){['arcano_atual','arcanos_conhecidos','arcano_efeitos'].forEach(k=>currentSheet[k]=f[k]===undefined?undefined:JSON.parse(JSON.stringify(f[k])));}salvarDB();}
+  vtmArcRenderTudo();
+}
+function vtmArcEfeitoTexto(e){
+  const t=VTM_ARC_TIPOS[e.tipo];if(!t)return 'Efeito';
+  let s=t.nome.replace('N',String(e.n||1));
+  if(t.filtro&&e.filtro&&e.filtro!=='qualquer')s+=` (${VTM_ARC_FILTROS[e.filtro]||e.filtro})`;
+  return s;
+}
+
+/* ---------- arte padrão (SVG) e carta ---------- */
+function vtmArcArtePadrao(a){
+  const sym=String(a.simbolo||'✦')+'︎',num=String(a.num||'');
+  const svg=`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 500'>
+    <defs><radialGradient id='g' cx='50%' cy='42%' r='70%'><stop offset='0' stop-color='#4a0d15'/><stop offset='.55' stop-color='#1d0709'/><stop offset='1' stop-color='#070203'/></radialGradient>
+    <linearGradient id='p' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='#d9dce0'/><stop offset='.5' stop-color='#7d8188'/><stop offset='1' stop-color='#c3c6cb'/></linearGradient></defs>
+    <rect width='400' height='500' fill='url(#g)'/>
+    <g fill='none' stroke='#8e1b25' stroke-opacity='.55'><circle cx='200' cy='225' r='128'/><circle cx='200' cy='225' r='104' stroke-dasharray='2 7'/><circle cx='200' cy='225' r='150' stroke-opacity='.25'/></g>
+    <g stroke='url(#p)' stroke-opacity='.45'><line x1='40' y1='72' x2='360' y2='72'/><line x1='40' y1='400' x2='360' y2='400'/></g>
+    <text x='200' y='56' text-anchor='middle' font-family='Cinzel,Georgia,serif' font-size='34' fill='#d9d2c6' letter-spacing='6'>${escapeHTML(num)}</text>
+    <g fill='#8e1b25' fill-opacity='.5'><circle cx='200' cy='378' r='3'/><circle cx='180' cy='378' r='1.6'/><circle cx='220' cy='378' r='1.6'/></g>
+    <text x='200' y='272' text-anchor='middle' font-family='Georgia,serif' font-size='150' fill='#b3202d' fill-opacity='.9'>${escapeHTML(sym)}</text>
+  </svg>`;
+  return 'data:image/svg+xml,'+encodeURIComponent(svg);
+}
+function vtmArcImg(a){return (a&&VTM_FOTOS['arcano_'+a.id])||vtmArcArtePadrao(a||{});}
+function vtmArcDescHtml(a){
+  return `<div class="varc-desc" role="tooltip"><b>${escapeHTML((a.num?a.num+' · ':'')+(a.nome||''))}</b>
+    ${a.egide?`<p><span>Égide</span>${escapeHTML(a.egide)}</p>`:''}
+    <p><span>${escapeHTML(a.titulo||'Efeito')}</span>${escapeHTML(a.efeito||'')}</p></div>`;
+}
+// estado: 'ativa' | 'gasta' | 'mostrar'
+function vtmArcCartaHtml(a,estado,opts){
+  opts=opts||{};
+  return `<div class="varc ${estado||'mostrar'} ${opts.grande?'grande':''} ${opts.mini?'mini':''}" data-arc="${escapeHTML(a.id)}" tabindex="0">
+    <div class="varc-arte" style="background-image:url(&quot;${vtmArcImg(a)}&quot;)"></div>
+    <div class="varc-faixa">${VTM_FOTOS['arcano_'+a.id]?`<span class="varc-num">${escapeHTML(a.num||'')}</span>`:''}<span class="varc-nome">${escapeHTML(a.nome||'Arcano')}</span></div>
+    ${estado==='gasta'?'<span class="varc-selo">Gasta</span>':''}
+    ${opts.mini?'':vtmArcDescHtml(a)}
+  </div>`;
+}
+function vtmArcVazioHtml(){return `<div class="varc vazia"><span>Você ainda não descobriu esse arcano</span></div>`;}
+
+/* ---------- abrir uma carta ---------- */
+function vtmArcAbrir(a,opts){
+  opts=opts||{};if(!a)return;
+  let ov=document.getElementById('vtm-carta-ov');
+  if(!ov){ov=document.createElement('div');ov.id='vtm-carta-ov';ov.className='vtm-carta-ov';document.body.appendChild(ov);ov.addEventListener('click',e=>{if(e.target===ov)vtmFecharCarta();});}
+  const ops=a.opcoes&&a.opcoes.length?a.opcoes:[{rotulo:'Usar Carta',efeitos:[{tipo:'nota'}]}];
+  ov.innerHTML=`<div class="vco-palco varc-palco">${vtmArcCartaHtml(a,opts.estado||'mostrar',{grande:true})}
+    <div class="varc-dica">${opts.podeUsar?'Passe o mouse (ou toque) na carta para ler o efeito.':'Passe o mouse (ou toque) na carta para ler o efeito.'}</div>
+    <div class="vco-acoes" data-acoes>
+      ${opts.podeUsar?'<button type="button" class="btn blood" data-usar>🃏 Usar Carta</button>':''}
+      <button type="button" class="btn small" data-fechar>Fechar</button></div></div>`;
+  const carta=ov.querySelector('.varc');
+  carta.addEventListener('click',()=>carta.classList.toggle('ver'));
+  ov.querySelector('[data-fechar]').onclick=vtmFecharCarta;
+  const usar=ov.querySelector('[data-usar]');
+  if(usar)usar.onclick=()=>{
+    if(ops.length===1){vtmArcConfirmarUso(opts.fichaId,a,0);return;}
+    const box=ov.querySelector('[data-acoes]');
+    box.innerHTML=`<div class="varc-escolha"><div class="varc-escolha-tit">Como usar <b>${escapeHTML(a.nome)}</b>?</div>
+      ${ops.map((o,i)=>{const det=(o.efeitos||[]).map(vtmArcEfeitoTexto).join(' + ');return `<button type="button" class="btn blood small" data-op="${i}">${escapeHTML(o.rotulo||('Opção '+(i+1)))}${normalizar(det)!==normalizar(o.rotulo)?`<small>${escapeHTML(det)}</small>`:''}</button>`;}).join('')}
+      <button type="button" class="btn small" data-volta>Voltar</button></div>`;
+    box.querySelectorAll('[data-op]').forEach(b=>b.onclick=()=>vtmArcConfirmarUso(opts.fichaId,a,parseInt(b.dataset.op)));
+    box.querySelector('[data-volta]').onclick=()=>vtmArcAbrir(a,opts);
+  };
+  requestAnimationFrame(()=>ov.classList.add('on'));
+}
+function vtmArcConfirmarUso(fid,a,i){vtmFecharCarta();vtmArcUsar(fid,a.id,i);}
+
+/* ---------- usar ---------- */
+function vtmArcAplicarImediato(f,e){
+  const n=Math.max(1,parseInt(e.n)||1);
+  const ordenar=arr=>arr.sort((x,y)=>y-x);
+  if(e.tipo==='cura_fv'||e.tipo==='cura_vit'){
+    const k=e.tipo==='cura_fv'?'willpower':'health';const arr=(f[k]||[]).slice();let c=0;
+    for(let i=arr.length-1;i>=0&&c<n;i--)if(arr[i]===1){arr[i]=0;c++;}
+    f[k]=ordenar(arr);return c?`curou ${c} de dano Superficial na ${e.tipo==='cura_fv'?'Força de Vontade':'Vitalidade'}`:'não havia dano Superficial para curar';
+  }
+  if(e.tipo==='agravado_superficial'){const arr=(f.health||[]).slice();let c=0;for(let i=0;i<arr.length&&c<n;i++)if(arr[i]===2){arr[i]=1;c++;}f.health=ordenar(arr);
+    return c?`${c} de dano Agravado virou Superficial`:'não havia dano Agravado';}
+  if(e.tipo==='manchas'){const a=parseInt(f.manchas)||0;f.manchas=Math.max(0,a-n);return a?`Manchas ${a} → ${f.manchas}`:'não havia Manchas';}
+  if(e.tipo==='fome'){const a=parseInt(f.fome)||0;f.fome=Math.max(0,a-n);return a?`Fome ${a} → ${f.fome}`:'a Fome já estava em 0';}
+  return '';
+}
+async function vtmArcUsar(fid,arcId,opIdx){
+  const f=vtmArcFicha(fid);const a=vtmArcGet(arcId);if(!f||!a)return;
+  if(f.arcano_atual!==arcId){toast('Esse Arcano não está mais com o personagem.');return;}
+  const op=(a.opcoes||[])[opIdx]||{rotulo:'Usar Carta',efeitos:[{tipo:'nota'}]};
+  if(currentSheet&&f===currentSheet)try{collectFields();}catch(e){}
+  const notas=[];const armados=[];
+  (op.efeitos||[]).forEach(e=>{
+    const t=VTM_ARC_TIPOS[e.tipo];if(!t)return;
+    if(t.armado){armados.push({id:uid('arcef'),tipo:e.tipo,n:parseInt(e.n)||1,filtro:e.filtro||'qualquer',arcano:a.nome,arcId:a.id,cena:!!t.cena,quando:Date.now()});}
+    else if(e.tipo!=='nota'){const r=vtmArcAplicarImediato(f,e);if(r)notas.push(r);}
+  });
+  f.arcano_efeitos=(f.arcano_efeitos||[]).concat(armados);
+  f.arcano_atual=null;
+  f.arcanos_conhecidos=f.arcanos_conhecidos||{};
+  const k=f.arcanos_conhecidos[arcId]||(f.arcanos_conhecidos[arcId]={primeiraVez:Date.now(),recebido:1,usos:0});k.usos=(k.usos||0)+1;k.ultimoUso=Date.now();
+  await vtmArcSalvarFicha(f);
+  if(currentSheet&&f===currentSheet){try{carregarFichaNaTela();}catch(e){}}
+  const resumo=[op.rotulo].concat(notas).concat(armados.map(vtmArcEfeitoTexto)).filter(Boolean).join(' · ');
+  try{camp().descricoes=camp().descricoes||[];camp().descricoes.unshift({id:uid('desc'),quando:Date.now(),quem:f.f_nome||'Personagem',titulo:`🃏 ${a.nome} — ${a.titulo||''}`,texto:resumo});camp().descricoes=camp().descricoes.slice(0,200);salvarDB();}catch(e){}
+  vtmPublicarMesa({tipo:'arcano',acao:'usou',arcId:a.id,fichaId:f.id,quem:f.f_nome||'Personagem',opcao:op.rotulo||'',resumo});
+  toast(`🃏 ${a.nome}: ${resumo}`);
+}
+
+/* ---------- conceder (Narrador) ---------- */
+function vtmArcConceder(arcId,fid){
+  const f=(camp().fichas||{})[fid];const a=vtmArcGet(arcId);if(!f||!a)return;
+  if(f.arcano_atual===arcId){toast(`${f.f_nome||'O personagem'} já está com ${a.nome}.`);return;}
+  if(f.arcano_atual){const ant=vtmArcGet(f.arcano_atual);if(!confirm(`${f.f_nome||'O personagem'} já guarda ${ant?ant.nome:'um Arcano'}. Cada personagem só pode ter um Arcano por vez.\n\nSubstituir por ${a.nome}? (${ant?ant.nome:'O anterior'} fica conhecido, em cinza.)`))return;}
+  f.arcano_atual=arcId;f.arcanos_conhecidos=f.arcanos_conhecidos||{};
+  const k=f.arcanos_conhecidos[arcId];if(k)k.recebido=(k.recebido||1)+1;else f.arcanos_conhecidos[arcId]={primeiraVez:Date.now(),recebido:1,usos:0};
+  camp().arcanosHist=[{quando:Date.now(),arcano:a.nome,ficha:f.f_nome||'Sem nome'}].concat(camp().arcanosHist||[]).slice(0,30);
+  if(currentSheet&&currentSheetId===fid){currentSheet.arcano_atual=f.arcano_atual;currentSheet.arcanos_conhecidos=JSON.parse(JSON.stringify(f.arcanos_conhecidos));}
+  salvarDB();
+  vtmPublicarMesa({tipo:'arcano',acao:'recebeu',arcId,fichaId:fid,quem:f.f_nome||''});
+  toast(`🃏 ${a.nome} concedido a ${f.f_nome||'personagem'}.`);
+  vtmArcRenderTudo();
+}
+function vtmArcRetirar(fid){
+  const f=(camp().fichas||{})[fid];if(!f||!f.arcano_atual)return;const a=vtmArcGet(f.arcano_atual);
+  if(!confirm(`Retirar ${a?a.nome:'o Arcano'} de ${f.f_nome||'personagem'} sem usar? Ele continua conhecido.`))return;
+  f.arcano_atual=null;if(currentSheet&&currentSheetId===fid)currentSheet.arcano_atual=null;salvarDB();vtmArcRenderTudo();
+}
+
+/* ---------- avisos na mesa ---------- */
+VTM_MESA_HANDLERS.arcano=function(d){
+  const a=vtmArcGet(d.arcId);if(!a)return;
+  const f=(camp().fichas||{})[d.fichaId];
+  if(d.acao==='recebeu'){
+    if(masterUnlocked||!f||f.donoId!==currentPlayerId)return;
+    const el=document.createElement('div');el.className='vmp-item vmp-carta vmp-arcano';el.title='Abrir o Arcano';
+    el.innerHTML=`<button class="vmp-x" title="Dispensar">✕</button>${vtmArcCartaHtml(a,'ativa',{mini:true})}<div class="vmp-quem">🃏 ${escapeHTML(f.f_nome||'')} recebeu um Arcano</div>`;
+    el.onclick=e=>{if(e.target.closest('.vmp-x'))return;
+      const abrirNaFicha=()=>{vtmAbaFicha('arcanos',true);setTimeout(()=>vtmArcAbrir(a,{estado:'ativa',podeUsar:true,fichaId:f.id}),150);};
+      if(currentSheetId===f.id&&document.getElementById('page-ficha').classList.contains('active'))abrirNaFicha();
+      else{abrirFicha(f.id,'jogador','jogadores');setTimeout(abrirNaFicha,350);}};
+    vtmAvisoMesa(el,10000,{esmaecer:true});
+    return;
+  }
+  if(d.acao==='usou'){
+    if(d.autor===currentUser.username)return;
+    const el=document.createElement('div');el.className='vmp-item vmp-carta vmp-arcano';el.title=d.resumo||'Ver o Arcano';
+    el.innerHTML=`<button class="vmp-x" title="Dispensar">✕</button>${vtmArcCartaHtml(a,'ativa',{mini:true})}<div class="vmp-quem">${escapeHTML(d.quem||'')} usou ${escapeHTML(a.nome)}</div>`;
+    el.onclick=e=>{if(e.target.closest('.vmp-x'))return;vtmArcAbrir(a,{estado:'mostrar'});};
+    vtmAvisoMesa(el,10000,{esmaecer:true});
+  }
+};
+
+/* ---------- ficha: aba Arcanos e efeitos armados ---------- */
+function vtmArcRenderFicha(){
+  const host=document.getElementById('ficha-arcanos-host');if(!host||!currentSheet||!currentSheetId)return;
+  const f=currentSheet;const lista=vtmArcLista();const con=f.arcanos_conhecidos||{};const atual=f.arcano_atual;
+  const ef=f.arcano_efeitos||[];const aAtual=atual?vtmArcGet(atual):null;
+  host.innerHTML=`<div class="varc-ficha">
+    <div class="varc-cab"><h3 class="sec-title" style="margin:0;border:0">🃏 Arcanos</h3>
+      <span class="varc-resumo">${aAtual?`Guardando <b>${escapeHTML(aAtual.nome)}</b> · clique para usar`:'Nenhum Arcano guardado agora'} · ${Object.keys(con).filter(id=>vtmArcGet(id)).length} de ${lista.length} descobertos</span></div>
+    <p class="hint" style="margin:.2rem 0 .6rem">O Narrador concede os Arcanos. Você guarda um por vez; depois de usado ele fica cinza, mas você já sabe como funciona.</p>
+    ${ef.length?`<div class="varc-efeitos">${ef.map(e=>`<span class="varc-ef" title="${escapeHTML(e.arcano||'')}">🃏 <b>${escapeHTML(e.arcano||'Arcano')}:</b> ${escapeHTML(vtmArcEfeitoTexto(e))}<button type="button" data-tirar="${e.id}" title="${e.cena?'Encerrar o efeito (fim da cena)':'Descartar este efeito'}">✕</button></span>`).join('')}</div>`:''}
+    <div class="varc-grade">${lista.map(a=>{
+      if(!con[a.id]&&atual!==a.id)return vtmArcVazioHtml();
+      return vtmArcCartaHtml(a,atual===a.id?'ativa':'gasta');}).join('')||'<p class="mini-muted">O Narrador ainda não criou Arcanos nesta crônica.</p>'}</div></div>`;
+  host.querySelectorAll('.varc[data-arc]').forEach(el=>{
+    const a=vtmArcGet(el.dataset.arc);const ativa=el.classList.contains('ativa');
+    el.onclick=()=>vtmArcAbrir(a,{estado:ativa?'ativa':'gasta',podeUsar:ativa,fichaId:currentSheetId});
+    el.onkeydown=e=>{if(e.key==='Enter')el.click();};
+  });
+  host.querySelectorAll('[data-tirar]').forEach(b=>b.onclick=()=>{currentSheet.arcano_efeitos=(currentSheet.arcano_efeitos||[]).filter(e=>e.id!==b.dataset.tirar);saveSheet(true);vtmArcRenderTudo();});
+}
+// faixa no painel de estado: Arcano guardado + efeitos armados
+function vtmArcRenderEstado(){
+  const est=document.getElementById('ficha-estado');if(!est||!currentSheet)return;
+  let el=document.getElementById('fe-arcano');
+  const f=currentSheet;const a=f.arcano_atual?vtmArcGet(f.arcano_atual):null;const ef=f.arcano_efeitos||[];
+  if(!a&&!ef.length){if(el)el.remove();return;}
+  if(!el){el=document.createElement('div');el.id='fe-arcano';el.className='fe-arcano';est.appendChild(el);}
+  el.innerHTML=`${a?`<button type="button" class="fe-arc-guardado" data-abrir title="Abrir o Arcano">🃏 ${escapeHTML(a.nome)}</button>`:''}
+    ${ef.map(e=>`<span class="fe-arc-ef" title="Arcano ${escapeHTML(e.arcano||'')}">${escapeHTML(vtmArcEfeitoTexto(e))}</span>`).join('')}`;
+  const b=el.querySelector('[data-abrir]');if(b)b.onclick=()=>{vtmAbaFicha('arcanos',true);vtmArcAbrir(a,{estado:'ativa',podeUsar:true,fichaId:currentSheetId});};
+}
+function vtmArcRenderTudo(){
+  try{vtmArcRenderFicha();vtmArcRenderEstado();}catch(e){console.error(e);}
+  try{const p=vtmPaneMestre('recompensas');if(p&&p.classList.contains('on'))vtmArcRenderConceder();}catch(e){}
+  try{const p=vtmPaneMestre('arcanos');if(p&&p.classList.contains('on'))vtmArcRenderMestre();}catch(e){}
+}
+VTM_ABA_HOOKS.arcanos=vtmArcRenderFicha;
+['arcano_atual','arcanos_conhecidos','arcano_efeitos'].forEach(k=>{if(!VTM_CAMPOS_SYNC.includes(k))VTM_CAMPOS_SYNC.push(k);});
+const _vtmRedesenharArc=vtmRedesenharStatusFicha;
+vtmRedesenharStatusFicha=function(){_vtmRedesenharArc.apply(this,arguments);try{vtmArcRenderEstado();if(VTM_ABA_FICHA==='arcanos')vtmArcRenderFicha();}catch(e){}};
+const _vtmCarregarFichaArc=carregarFichaNaTela;
+carregarFichaNaTela=function(){_vtmCarregarFichaArc.apply(this,arguments);try{vtmArcRenderEstado();if(VTM_ABA_FICHA==='arcanos')vtmArcRenderFicha();}catch(e){}};
+
+/* ---------- efeitos armados nas rolagens ---------- */
+function vtmArcFiltroOk(filtro,s){
+  const tr=s.tracos||[];const p=s.cfg&&s.cfg.poder;const disc=p&&p.disc;
+  switch(filtro){
+    case 'fisico':case 'social':case 'mental':return tr.some(t=>VTM_CAT_ATTR[t]===filtro);
+    case 'disciplina':return tr.some(vtmEhDisciplina)||!!p;
+    case 'furtividade':return tr.includes('Furtividade')||tr.includes('Ofuscação')||disc==='Ofuscação';
+    case 'dominacao_lideranca':return tr.includes('Liderança')||tr.includes('Dominação')||disc==='Dominação';
+    case 'auspicios_invest':return tr.some(t=>['Auspícios','Investigação','Ocultismo'].includes(t))||disc==='Auspícios';
+    default:return true;
+  }
+}
+function vtmArcAplicaveis(s){
+  const f=s&&s.ator&&s.ator.tipo==='pc'&&s.ator.ficha;if(!f)return [];
+  return (f.arcano_efeitos||[]).filter(e=>e.tipo!=='rouse_auto'&&vtmArcFiltroOk(e.filtro,s)&&!(e.tipo==='surto_gratis'&&!s.ator.vampiro));
+}
+function vtmArcMods(s){
+  s.mods=(s.mods||[]).filter(m=>!m.arc);
+  const off=s.arcOff||(s.arcOff=new Set());
+  vtmArcAplicaveis(s).forEach(e=>{
+    if(off.has(e.id))return;
+    if(e.tipo==='dados'||e.tipo==='cena_dados')s.mods.push({rotulo:'🃏 '+e.arcano,valor:e.n,auto:true,arc:e.id});
+    if(e.tipo==='surto_gratis'){s.mods.push({rotulo:'🃏 Surto sem Checagem',valor:VTM_BP_SURTO[Math.min(10,s.ator.bp())]||1,auto:true,arc:e.id});s.surto=false;}
+  });
+}
+const _vtmRenderPreparoArc=vtmRenderPreparo;
+vtmRenderPreparo=function(){
+  const s=VR.estado;if(!s)return _vtmRenderPreparoArc();
+  vtmArcMods(s);
+  _vtmRenderPreparoArc();
+  const ap=vtmArcAplicaveis(s);if(!ap.length)return;
+  const aj=document.querySelector('#vr-bandeja .vr-ajustes');if(!aj)return;
+  const box=document.createElement('div');box.className='vr-arc';
+  box.innerHTML=ap.map(e=>`<label class="vr-tog vr-arc-tog" title="Efeito de Arcano armado na ficha"><input type="checkbox" data-arc="${e.id}" ${s.arcOff.has(e.id)?'':'checked'}> 🃏 ${escapeHTML(e.arcano)}: ${escapeHTML(vtmArcEfeitoTexto(e))}</label>`).join('');
+  aj.appendChild(box);
+  box.querySelectorAll('[data-arc]').forEach(i=>i.onchange=()=>{if(i.checked)s.arcOff.delete(i.dataset.arc);else s.arcOff.add(i.dataset.arc);vtmRenderPreparo();});
+};
+// sucessos extras / falha que vira sucesso / crítico entram na classificação do resultado
+const _vtmClassificarArc=vtmClassificar;
+vtmClassificar=function(dados,dif){
+  const r=_vtmClassificarArc(dados,dif);const x=VR._arcRes;if(!x)return r;
+  const refazer=()=>{r.falhou=dif!=null?r.sucessos<dif:r.sucessos<1;r.margem=dif!=null?r.sucessos-dif:null;};
+  if(x.sucessos){r.sucessos+=x.sucessos;const antes=r.falhou;refazer();if(antes&&!r.falhou){r.resultado=r.pares?'Crítico':'Sucesso';r.cls='suc';}x.usados.add('sucessos');}
+  if(r.falhou&&x.falha&&(r.resultado==='Falha'||(x.falha.tipo==='falha_sucesso_total'&&r.resultado==='Falha Bestial'))){
+    r.sucessos=Math.max(r.sucessos,dif!=null?dif:1);refazer();r.resultado='Sucesso';r.cls='suc';x.disparou.add(x.falha.id);r.arcNota=`🃏 ${x.falha.arcano}: a falha virou sucesso`;}
+  if(!r.falhou&&x.critico&&!r.pares){r.sucessos+=2;r.pares=1;refazer();r.resultado='Crítico';r.cls='suc';x.disparou.add(x.critico.id);r.arcNota=`🃏 ${x.critico.arcano}: Vitória Crítica`;}
+  return r;
+};
+const _vtmExecutarArc=vtmExecutarRolagem;
+vtmExecutarRolagem=async function(){
+  const s=VR.estado;const ap=s?vtmArcAplicaveis(s).filter(e=>!(s.arcOff&&s.arcOff.has(e.id))):[];
+  if(!ap.length)return _vtmExecutarArc();
+  const f=s.ator.ficha;
+  s._arcRes={sucessos:ap.filter(e=>e.tipo==='sucessos').reduce((a,e)=>a+e.n,0),falha:ap.find(e=>e.tipo==='falha_sucesso'||e.tipo==='falha_sucesso_total'),critico:ap.find(e=>e.tipo==='critico'),disparou:new Set(),usados:new Set()};
+  VR._arcRes=s._arcRes;
+  try{await _vtmExecutarArc();}finally{VR._arcRes=null;}
+  if(!s.res)return; // só uma Checagem: nada foi rolado
+  // consome os efeitos de uso único (os de cena ficam; falha→sucesso e crítico só quando disparam)
+  const gastos=new Set(ap.filter(e=>['dados','sucessos','surto_gratis'].includes(e.tipo)).map(e=>e.id));
+  s._arcRes.disparou.forEach(id=>gastos.add(id));
+  if(gastos.size){f.arcano_efeitos=(f.arcano_efeitos||[]).filter(e=>!gastos.has(e.id));await s.ator.salvar();vtmArcRenderTudo();}
+  if(s.res.arcNota){const c=document.querySelector('#vr-bandeja .result-summary');if(c)c.insertAdjacentHTML('afterend',`<div class="vr-nota comp">${escapeHTML(s.res.arcNota)}</div>`);}
+};
+const _vtmRerrolarArc=vtmRerrolarFV;
+vtmRerrolarFV=async function(){const s=VR.estado;VR._arcRes=s&&s._arcRes?Object.assign({},s._arcRes,{disparou:new Set(),usados:new Set()}):null;try{return await _vtmRerrolarArc();}finally{VR._arcRes=null;}};
+// O Mago: a próxima Checagem de Sangue passa sozinha
+const _vtmChecagemArc=vtmChecagem;
+vtmChecagem=function(ator,opts){
+  const f=ator&&ator.tipo==='pc'&&ator.ficha;const e=f&&(f.arcano_efeitos||[]).find(x=>x.tipo==='rouse_auto');
+  if(!e)return _vtmChecagemArc(ator,opts);
+  opts=Object.assign({},opts||{});const q=Math.max(1,opts.qtd||1);
+  f.arcano_efeitos=f.arcano_efeitos.filter(x=>x.id!==e.id);
+  let out;
+  if(q>1)out=_vtmChecagemArc(ator,Object.assign(opts,{qtd:q-1}));
+  else out={dados:[],sucessos:0,falhas:0,fomeAntes:ator.fome(),fomeDepois:ator.fome(),frenesi:false,bloqueada:false,reroll:false};
+  out.dados.unshift([10]);out.sucessos++;out.arcano=e.arcano;
+  setTimeout(()=>{try{if(currentSheet&&f===currentSheet)saveSheet(true);else salvarDB();vtmArcRenderTudo();}catch(err){}},0);
+  return out;
+};
+const _vtmChecagemHtmlArc=vtmChecagemHtml;
+vtmChecagemHtml=function(c){const h=_vtmChecagemHtmlArc(c);return c&&c.arcano?h.replace('</div>',` <span class="vr-arc-sel">🃏 ${escapeHTML(c.arcano)}: Checagem garantida</span></div>`):h;};
+
+/* ---------- Narrador: aba Arcanos (personalizar as cartas) ---------- */
+let VARC_ED=null; // {id, r(rascunho), novo}
+function vtmArcRenderMestre(){
+  const host=document.getElementById('vtm-arcanos-mestre');if(!host||!masterUnlocked)return;
+  if(VARC_ED&&host.contains(document.activeElement)&&document.activeElement.matches('input,textarea,select'))return;
+  vtmArcSemear();
+  const lista=vtmArcLista();const fichas=Object.values(camp().fichas||{});
+  const comQuem=id=>fichas.filter(f=>f.arcano_atual===id).map(f=>f.f_nome||'?');
+  if(VARC_ED){vtmArcRenderEditor(host);return;}
+  host.innerHTML=`<div class="varc-mestre">
+    <div class="vg-cab"><h3>🃏 Arcanos da crônica</h3><span class="vm-h3-dica">clique numa carta para personalizar · conceda em 🏆 Recompensas</span><span class="vg-sp"></span>
+      <button type="button" class="btn small" data-a="padrao" title="Traz de volta os Arcanos do livro que foram apagados">↺ Arcanos do livro</button>
+      <button type="button" class="btn gold small" data-a="novo">＋ Novo Arcano</button></div>
+    <div class="varc-grade mestre">${lista.map(a=>`<div class="varc-m-item">${vtmArcCartaHtml(a,'ativa')}<div class="varc-m-info">${comQuem(a.id).length?`<span class="vg-chip on">com ${escapeHTML(comQuem(a.id).join(', '))}</span>`:'<span class="mini-muted">ninguém guarda</span>'}</div></div>`).join('')}</div></div>`;
+  host.querySelectorAll('.varc[data-arc]').forEach(el=>el.onclick=()=>{const a=vtmArcGet(el.dataset.arc);VARC_ED={id:a.id,r:JSON.parse(JSON.stringify(a)),novo:false};vtmArcRenderMestre();});
+  host.querySelector('[data-a="novo"]').onclick=()=>{const id=uid('arc');VARC_ED={id,novo:true,r:{id,num:'',nome:'Novo Arcano',simbolo:'✦',titulo:'',egide:'',efeito:'',opcoes:[{rotulo:'Usar Carta',efeitos:[{tipo:'nota'}]}],ordem:lista.length}};vtmArcRenderMestre();};
+  host.querySelector('[data-a="padrao"]').onclick=()=>{const m=camp().arcanos||{};let n=0;VTM_ARC_PADRAO.forEach((a,i)=>{if(!m[a.id]){m[a.id]=Object.assign(JSON.parse(JSON.stringify(a)),{ordem:i});n++;}});camp().arcanos=m;salvarDB();toast(n?`${n} Arcano(s) do livro restaurado(s).`:'Todos os Arcanos do livro já estão aqui.');vtmArcRenderMestre();};
+}
+function vtmArcRenderEditor(host){
+  const r=VARC_ED.r;
+  const tipoOpts=sel=>Object.entries(VTM_ARC_TIPOS).map(([k,t])=>`<option value="${k}" ${k===sel?'selected':''}>${escapeHTML(t.nome)}</option>`).join('');
+  const filtroOpts=sel=>Object.entries(VTM_ARC_FILTROS).map(([k,t])=>`<option value="${k}" ${k===(sel||'qualquer')?'selected':''}>${escapeHTML(t)}</option>`).join('');
+  host.innerHTML=`<div class="varc-editor">
+    <div class="varc-ed-prev">${vtmArcCartaHtml(Object.assign({},r,{id:VARC_ED.id}),'ativa',{grande:true})}
+      <div class="varc-ed-img"><button type="button" class="btn small" data-a="img">🖼 Trocar imagem</button>${VTM_FOTOS['arcano_'+VARC_ED.id]?'<button type="button" class="btn small" data-a="semimg">Usar arte padrão</button>':''}</div>
+      <p class="mini-muted">A imagem ocupa a carta inteira. Passe o mouse na carta para ver a descrição.</p></div>
+    <div class="varc-ed-form">
+      <div class="varc-ed-linha"><label>Numeral<input type="text" data-c="num" maxlength="6" value="${escapeHTML(r.num||'')}"></label>
+        <label class="grow">Nome<input type="text" data-c="nome" maxlength="40" value="${escapeHTML(r.nome||'')}"></label>
+        <label>Símbolo<input type="text" data-c="simbolo" maxlength="3" value="${escapeHTML(r.simbolo||'')}" title="Aparece na arte padrão"></label></div>
+      <label>Égide / gatilho narrativo<textarea data-c="egide" rows="2">${escapeHTML(r.egide||'')}</textarea></label>
+      <label>Nome do efeito<input type="text" data-c="titulo" maxlength="40" value="${escapeHTML(r.titulo||'')}"></label>
+      <label>Efeito (texto da carta)<textarea data-c="efeito" rows="3">${escapeHTML(r.efeito||'')}</textarea></label>
+      <div class="varc-ed-ops"><div class="varc-ed-ops-tit">Ao usar <small>— cada opção vira um botão para o jogador; os efeitos são aplicados na ficha</small></div>
+        ${(r.opcoes||[]).map((o,i)=>`<div class="varc-ed-op" data-op="${i}">
+          <div class="varc-ed-linha"><label class="grow">Botão<input type="text" data-o="rotulo" value="${escapeHTML(o.rotulo||'')}"></label><button type="button" class="vdl-btn" data-a="delop" title="Remover opção">✕</button></div>
+          ${(o.efeitos||[]).map((e,j)=>`<div class="varc-ed-ef" data-ef="${j}"><select data-e="tipo">${tipoOpts(e.tipo)}</select>
+            ${VTM_ARC_TIPOS[e.tipo]&&VTM_ARC_TIPOS[e.tipo].n?`<input type="number" min="1" max="10" data-e="n" value="${parseInt(e.n)||1}" title="N">`:''}
+            ${VTM_ARC_TIPOS[e.tipo]&&VTM_ARC_TIPOS[e.tipo].filtro?`<select data-e="filtro">${filtroOpts(e.filtro)}</select>`:''}
+            <button type="button" class="vdl-btn" data-a="delef" title="Remover efeito">✕</button></div>`).join('')}
+          <button type="button" class="va-link" data-a="addef">＋ efeito</button></div>`).join('')}
+        ${(r.opcoes||[]).length<3?'<button type="button" class="btn small" data-a="addop">＋ Opção</button>':''}</div>
+      <div class="varc-ed-acoes">${VARC_ED.novo?'':'<button type="button" class="btn danger small" data-a="excluir">🗑 Excluir</button>'}<span class="vg-sp"></span>
+        <button type="button" class="btn small" data-a="cancelar">Cancelar</button><button type="button" class="btn blood" data-a="salvar">💾 Salvar</button></div>
+    </div></div>`;
+  const prev=()=>{const p=host.querySelector('.varc-ed-prev .varc');if(p)p.outerHTML=vtmArcCartaHtml(Object.assign({},r,{id:VARC_ED.id}),'ativa',{grande:true});};
+  host.querySelectorAll('[data-c]').forEach(i=>i.oninput=()=>{r[i.dataset.c]=i.value;prev();});
+  host.querySelectorAll('.varc-ed-op').forEach(el=>{
+    const o=r.opcoes[parseInt(el.dataset.op)];
+    el.querySelector('[data-o="rotulo"]').oninput=e=>{o.rotulo=e.target.value;};
+    el.querySelector('[data-a="delop"]').onclick=()=>{r.opcoes.splice(parseInt(el.dataset.op),1);vtmArcRenderEditor(host);};
+    el.querySelector('[data-a="addef"]').onclick=()=>{o.efeitos=(o.efeitos||[]).concat([{tipo:'dados',n:1,filtro:'qualquer'}]);vtmArcRenderEditor(host);};
+    el.querySelectorAll('.varc-ed-ef').forEach(fe=>{const e=o.efeitos[parseInt(fe.dataset.ef)];
+      fe.querySelector('[data-e="tipo"]').onchange=ev=>{e.tipo=ev.target.value;if(VTM_ARC_TIPOS[e.tipo].n&&!e.n)e.n=1;if(VTM_ARC_TIPOS[e.tipo].filtro&&!e.filtro)e.filtro='qualquer';vtmArcRenderEditor(host);};
+      const n=fe.querySelector('[data-e="n"]');if(n)n.oninput=ev=>{e.n=Math.max(1,parseInt(ev.target.value)||1);};
+      const fl=fe.querySelector('[data-e="filtro"]');if(fl)fl.onchange=ev=>{e.filtro=ev.target.value;};
+      fe.querySelector('[data-a="delef"]').onclick=()=>{o.efeitos.splice(parseInt(fe.dataset.ef),1);vtmArcRenderEditor(host);};});
+  });
+  const q=s=>host.querySelector(s);
+  const ao=q('[data-a="addop"]');if(ao)ao.onclick=()=>{r.opcoes=(r.opcoes||[]).concat([{rotulo:'Nova opção',efeitos:[{tipo:'nota'}]}]);vtmArcRenderEditor(host);};
+  q('[data-a="img"]').onclick=()=>{const inp=document.createElement('input');inp.type='file';inp.accept='image/*';
+    inp.onchange=()=>{const fl=inp.files[0];if(!fl)return;vtmReduzirImagem(fl,820,.85).then(url=>{const k='arcano_'+VARC_ED.id;VTM_FOTOS[k]=url;vtmColFotos().doc(k).set({data:url,em:Date.now()}).catch(e=>toast('Erro ao salvar imagem: '+e.message));vtmArcRenderEditor(host);}).catch(e=>toast(e.message));};inp.click();};
+  const si=q('[data-a="semimg"]');if(si)si.onclick=()=>{const k='arcano_'+VARC_ED.id;delete VTM_FOTOS[k];vtmColFotos().doc(k).delete().catch(()=>{});vtmArcRenderEditor(host);};
+  q('[data-a="cancelar"]').onclick=()=>{VARC_ED=null;vtmArcRenderMestre();};
+  q('[data-a="salvar"]').onclick=()=>{
+    if(!String(r.nome||'').trim()){toast('Dê um nome ao Arcano.');return;}
+    const m=camp().arcanos||(camp().arcanos=vtmArcMapa());const o=JSON.parse(JSON.stringify(r));delete o.id;
+    (o.opcoes||[]).forEach(op=>{op.efeitos=(op.efeitos||[]).map(e=>{const t=VTM_ARC_TIPOS[e.tipo]||{};const x={tipo:e.tipo};if(t.n)x.n=Math.max(1,parseInt(e.n)||1);if(t.filtro)x.filtro=e.filtro||'qualquer';return x;});});
+    m[VARC_ED.id]=o;salvarDB();toast(`🃏 ${o.nome} salvo.`);VARC_ED=null;vtmArcRenderMestre();};
+  const ex=q('[data-a="excluir"]');if(ex)ex.onclick=()=>{
+    const quem=Object.values(camp().fichas||{}).filter(f=>f.arcano_atual===VARC_ED.id).map(f=>f.f_nome);
+    if(!confirm(`Excluir o Arcano "${r.nome}"?${quem.length?`\n\n${quem.join(', ')} ainda o guarda(m): a carta some da ficha.`:''}`))return;
+    Object.values(camp().fichas||{}).forEach(f=>{if(f.arcano_atual===VARC_ED.id)f.arcano_atual=null;});
+    delete camp().arcanos[VARC_ED.id];salvarDB();VARC_ED=null;vtmArcRenderMestre();};
+}
+
+/* ---------- Narrador: conceder em Recompensas ---------- */
+const VARC_GM={arc:'',ficha:''};
+function vtmArcRenderConceder(){
+  const pane=vtmPaneMestre('recompensas');if(!pane)return;
+  let p=document.getElementById('varc-conceder');
+  if(!p){p=document.createElement('div');p.className='panel varc-conceder';p.id='varc-conceder';const ref=document.getElementById('veq-entrega')||document.getElementById('vxp-mestre');if(ref)pane.insertBefore(p,ref);else pane.appendChild(p);}
+  const lista=vtmArcLista();const fichas=Object.values(camp().fichas||{}).sort((a,b)=>String(a.f_nome).localeCompare(String(b.f_nome),'pt-BR'));
+  if(VARC_GM.arc&&!vtmArcGet(VARC_GM.arc))VARC_GM.arc='';if(VARC_GM.ficha&&!camp().fichas[VARC_GM.ficha])VARC_GM.ficha='';
+  const hist=(camp().arcanosHist||[]).slice(0,5);
+  p.innerHTML=`<h3>🃏 Conceder Arcano <span class="vm-h3-dica">cada personagem guarda um por vez</span></h3>
+    <div class="varc-c-cartas">${lista.map(a=>`<button type="button" class="varc-c-op ${VARC_GM.arc===a.id?'on':''}" data-arc="${escapeHTML(a.id)}" title="${escapeHTML(a.titulo||'')}">${vtmArcCartaHtml(a,'ativa',{mini:true})}</button>`).join('')||'<span class="mini-muted">Crie Arcanos na aba 🃏 Arcanos.</span>'}</div>
+    <div class="varc-c-linha"><span class="veq-g-rot">Para</span><div class="veq-g-fichas">${fichas.map(f=>{const a=f.arcano_atual?vtmArcGet(f.arcano_atual):null;
+      return `<button type="button" class="vg-chip ${VARC_GM.ficha===f.id?'on':''}" data-f="${f.id}">${VARC_GM.ficha===f.id?'◉':'○'} ${escapeHTML(f.f_nome||'Sem nome')}${a?` <small>· 🃏 ${escapeHTML(a.nome)}</small>`:''}</button>`;}).join('')||'<span class="mini-muted">Nenhuma ficha.</span>'}</div>
+      <span class="vg-sp"></span><button type="button" class="btn blood" data-a="dar" ${VARC_GM.arc&&VARC_GM.ficha?'':'disabled'}>🃏 Conceder Arcano</button></div>
+    ${fichas.some(f=>f.arcano_atual)?`<div class="varc-c-com">${fichas.filter(f=>f.arcano_atual).map(f=>{const a=vtmArcGet(f.arcano_atual);return `<span class="varc-c-tem">${escapeHTML(f.f_nome||'?')} guarda <b>${escapeHTML(a?a.nome:'?')}</b><button type="button" class="vdl-btn" data-tirar="${f.id}" title="Retirar sem usar">✕</button></span>`;}).join('')}</div>`:''}
+    ${hist.length?`<div class="veq-g-hist">${hist.map(h=>`<div>🃏 <b>${escapeHTML(h.arcano)}</b> → ${escapeHTML(h.ficha)} <small class="mini-muted">${typeof vtmTempoRel==='function'?vtmTempoRel(h.quando):''}</small></div>`).join('')}</div>`:''}`;
+  p.querySelectorAll('.varc-c-op').forEach(b=>b.onclick=()=>{VARC_GM.arc=VARC_GM.arc===b.dataset.arc?'':b.dataset.arc;vtmArcRenderConceder();});
+  p.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{VARC_GM.ficha=VARC_GM.ficha===b.dataset.f?'':b.dataset.f;vtmArcRenderConceder();});
+  p.querySelectorAll('[data-tirar]').forEach(b=>b.onclick=()=>vtmArcRetirar(b.dataset.tirar));
+  p.querySelector('[data-a="dar"]').onclick=()=>{vtmArcConceder(VARC_GM.arc,VARC_GM.ficha);VARC_GM.arc='';VARC_GM.ficha='';vtmArcRenderConceder();};
+}
+const _vtmAbaMestreArc=vtmAbaMestre;
+vtmAbaMestre=function(k){const r=_vtmAbaMestreArc.apply(this,arguments);try{if(k==='recompensas')vtmArcRenderConceder();if(k==='arcanos'){VARC_ED=null;vtmArcRenderMestre();}}catch(e){console.error(e);}return r;};
+const _vtmAplicarDadosArc=aplicarDadosRecebidos;
+aplicarDadosRecebidos=function(novoDb){_vtmAplicarDadosArc(novoDb);try{if(currentCampaignId&&camp()){const pr=vtmPaneMestre('recompensas');if(pr&&pr.classList.contains('on'))vtmArcRenderConceder();const pa=vtmPaneMestre('arcanos');if(pa&&pa.classList.contains('on')&&!VARC_ED)vtmArcRenderMestre();}}catch(e){}};
 
 /* inicia a conexão com o Firebase só agora, com tudo pronto */
 carregarDB();

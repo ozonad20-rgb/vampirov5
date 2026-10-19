@@ -1852,6 +1852,11 @@ body.night-mode .vpc-pop small,body.night-mode .vpc-vazio{color:#b9a59a}
 .varc-c-tem{display:inline-flex;align-items:center;gap:.3rem;border:1px solid rgba(196,20,40,.45);border-radius:5px;padding:.15rem .2rem .15rem .55rem;font-size:.88rem}
 @media (max-width:760px){.varc-editor{grid-template-columns:1fr}.varc-ed-prev{position:static}.varc-grade{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}.varc{--w:150px}.varc.grande{--w:min(340px,86vw)}}
 @media (prefers-reduced-motion:reduce){.varc{animation:none}}
+.va-contas-lista{display:flex;flex-direction:column;gap:.35rem}
+.va-conta{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;border:1px solid var(--border);border-radius:6px;padding:.4rem .6rem;background:var(--surface2)}
+.va-conta-nome{flex:1;min-width:150px;display:flex;flex-direction:column}
+.va-conta-nome small{color:var(--muted);font-size:.78rem}
+.va-codigo{font-family:'Courier New',monospace;font-size:1.15rem;font-weight:bold;letter-spacing:.18em;background:#160b0b;color:#ecd07a;padding:.2rem .6rem;border-radius:4px;user-select:all}
 
 </style>
 </head>
@@ -11813,6 +11818,47 @@ sairConta=function(){
   _vaSairConta();
   vaAuth().signOut().catch(e=>console.warn(e));
 };
+
+/* ---------- Narrador: código de transferência para quem esqueceu a senha antiga ----------
+   A senha antiga vira um código novo (de uso único): o jogador usa "Transferir minha conta"
+   com o usuário antigo e esse código no lugar da senha. */
+const VA_CODIGOS={};
+function vaGerarCodigo(){const al='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';const a=new Uint8Array(6);(window.crypto&&crypto.getRandomValues)?crypto.getRandomValues(a):a.forEach((_,i)=>a[i]=Math.random()*256|0);return [...a].map(b=>al[b%al.length]).join('');}
+function vaContasDaCronica(){
+  if(!currentCampaignId||!camp())return [];
+  const nomes=new Set(Object.values(camp().jogadores||{}).map(j=>j&&j.nome).filter(Boolean));
+  return [...nomes].map(n=>{const k=normalizar(n);return {key:k,nome:n,u:(db.usuarios||{})[k]};}).filter(x=>x.u).sort((a,b)=>a.nome.localeCompare(b.nome,'pt-BR'));
+}
+function vaRenderContasMestre(){
+  const pane=vtmPaneMestre('cronica');if(!pane||!masterUnlocked)return;
+  let p=document.getElementById('va-contas');
+  if(!p){p=document.createElement('div');p.className='panel va-contas';p.id='va-contas';const ref=document.getElementById('vpc-mestre');if(ref)ref.after(p);else pane.prepend(p);}
+  const contas=vaContasDaCronica();const pend=contas.filter(c=>!c.u.uid);
+  p.innerHTML=`<h3>🔑 Contas antigas <span class="vm-h3-dica">para quem esqueceu a senha antiga</span></h3>
+    <p class="hint">Gere um código e passe para o jogador. Na tela de entrada ele clica em <b>Transferir minha conta</b>, informa o <b>usuário antigo</b> e usa o <b>código no lugar da senha antiga</b>. Fichas e tudo mais continuam com ele.</p>
+    ${contas.length?`<div class="va-contas-lista">${contas.map(c=>`<div class="va-conta">
+      <span class="va-conta-nome"><b>${escapeHTML(c.nome)}</b>${c.u.uid?'<small>✓ já transferida</small>':'<small>ainda com login antigo</small>'}</span>
+      ${c.u.uid?'':(VA_CODIGOS[c.key]?`<span class="va-codigo" title="Código de transferência">${VA_CODIGOS[c.key]}</span><button type="button" class="btn small" data-copiar="${c.key}">Copiar instruções</button>`:`<button type="button" class="btn gold small" data-gerar="${c.key}">Gerar código</button>`)}
+    </div>`).join('')}</div>${!pend.length?'<p class="mini-muted">Todos os jogadores desta crônica já transferiram a conta.</p>':''}`:'<div class="empty">Nenhum jogador nesta crônica ainda.</div>'}`;
+  p.querySelectorAll('[data-gerar]').forEach(b=>b.onclick=()=>vaCriarCodigo(b.dataset.gerar,b));
+  p.querySelectorAll('[data-copiar]').forEach(b=>b.onclick=()=>{const c=contas.find(x=>x.key===b.dataset.copiar);const txt=`Para entrar no Vampiro VTT: na tela de entrada clique em "Transferir minha conta", coloque seu e-mail e uma senha nova, escolha "Já jogava com usuário e senha" e use:\nUsuário antigo: ${c.nome}\nSenha antiga: ${VA_CODIGOS[c.key]}`;
+    (navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>toast('Instruções copiadas.')).catch(()=>prompt('Copie as instruções:',txt));});
+}
+async function vaCriarCodigo(key,btn){
+  const u=(db.usuarios||{})[key];if(!u||u.uid)return;
+  if(btn){btn.disabled=true;btn.textContent='Gerando…';}
+  try{
+    const codigo=vaGerarCodigo();const sal=vaSal();
+    const ref=vaColLeg().doc(key);
+    try{await ref.delete();}catch(e){}
+    await ref.set({username:u.username,sal,iter:VA_ITER,resumo:await vaResumoSenha(codigo,sal,VA_ITER),criadoEm:Date.now(),porNarrador:currentUser.username});
+    if(typeof u.senha==='string'){delete u.senha;salvarDB();}
+    VA_CODIGOS[key]=codigo;toast(`Código de ${u.username}: ${codigo}`);
+  }catch(e){toast(vaTraduzErro(e));}
+  vaRenderContasMestre();
+}
+const _vaAbaMestre=vtmAbaMestre;
+vtmAbaMestre=function(k){const r=_vaAbaMestre.apply(this,arguments);try{if(k==='cronica')vaRenderContasMestre();}catch(e){console.error(e);}return r;};
 
 /* ==========================================================================
    VTM+ — 🃏 Arcanos: cartas especiais concedidas pelo Narrador

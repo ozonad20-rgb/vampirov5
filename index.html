@@ -1858,6 +1858,13 @@ body.night-mode .vpc-pop small,body.night-mode .vpc-vazio{color:#b9a59a}
 .va-conta-nome small{color:var(--muted);font-size:.78rem}
 .va-codigo{font-family:'Courier New',monospace;font-size:1.15rem;font-weight:bold;letter-spacing:.18em;background:#160b0b;color:#ecd07a;padding:.2rem .6rem;border-radius:4px;user-select:all}
 
+/* rerrolagem com Força de Vontade: escolha dos dados */
+.die.vr-esc{border:0;cursor:pointer;padding:0;font:inherit;font-family:'Cinzel',serif;font-weight:700;outline:1px dashed transparent;outline-offset:2px;transition:transform .12s}
+.die.vr-esc:hover{transform:translateY(-2px);outline-color:var(--gold,#c9a54a)}
+.die.vr-esc.on{outline:2px solid var(--gold,#c9a54a);transform:translateY(-3px)}
+.die.vr-fixo{opacity:.55}
+.vr-rerrol{flex-wrap:wrap;align-items:center;gap:.5rem}
+
 </style>
 </head>
 <body>
@@ -5442,9 +5449,9 @@ function rolarForcaDeVontade(){
 async function gastarForcaDeVontade(){
   recalcDerived();
   currentSheet.willpower=ajustarArray(currentSheet.willpower,currentSheet.will_max);
-  const idx=currentSheet.willpower.findIndex(v=>v!==2);
-  if(idx<0){toast('Todos os pontos de Força de Vontade já estão gastos/marcados.');return;}
-  currentSheet.willpower[idx]=2;
+  const idx=currentSheet.willpower.indexOf(0);
+  if(idx<0){toast('Nenhum ponto livre de Força de Vontade para gastar.');return;}
+  currentSheet.willpower[idx]=1;currentSheet.willpower.sort((x,y)=>y-x);
   renderTrackers();await saveSheet(true);toast('1 ponto de Força de Vontade marcado.');
 }
 function atualizarDicaPotenciaSangue(){
@@ -7631,7 +7638,7 @@ async function vtmExecutarRolagem(){
     const dif=c.dif!=null?c.dif:(c.semDif?null:dificuldadeAtualMesa());
     res={dados,dif,total,qtdFome,...vtmClassificar(dados,dif)};
   }
-  s.res=res;s.checagem=checagem;s.rerrolado=false;
+  s.res=res;s.checagem=checagem;s.rerrolado=false;s.selRer=null;s.rerrolados=null;
   if(checagem||rcSurto)await ator.salvar();
   vtmRenderResultado();
   if(res){
@@ -7643,8 +7650,20 @@ async function vtmExecutarRolagem(){
   if(c.aoRolar)try{c.aoRolar(res,checagem);}catch(e){console.error(e);}
   vtmAoMudarAtor(ator);
 }
-function vtmDadosHtml(dados,marcados){
-  return dados.map((d,i)=>{const bestial=d.tipo==='fome'&&d.v===1;return `<span class="die ${d.tipo}${bestial?' bestial':d.v===10?' critico':d.v>=6?' sucesso':''}${marcados&&marcados.includes(i)?' bonus':''}">${d.v}</span>`;}).join('');
+function vtmDadosHtml(dados,marcados,escolha){
+  return dados.map((d,i)=>{const bestial=d.tipo==='fome'&&d.v===1;
+    const cls=`die ${d.tipo}${bestial?' bestial':d.v===10?' critico':d.v>=6?' sucesso':''}${marcados&&marcados.includes(i)?' bonus':''}`;
+    // modo de escolha da rerrolagem: só dados comuns são clicáveis (Fome nunca pode ser rerrolada)
+    if(escolha&&d.tipo==='comum'){const on=escolha.includes(i);return `<button type="button" class="${cls} vr-esc${on?' on':''}" onclick="vtmEscolherRerrol(${i})" aria-pressed="${on}" title="${on?'Desmarcar':'Marcar para rerrolar'}">${d.v}</button>`;}
+    return `<span class="${cls}${escolha&&d.tipo==='fome'?' vr-fixo':''}">${d.v}</span>`;}).join('');
+}
+/* Força de Vontade (V5): gastar 1 ponto = 1 dano Superficial na trilha; só dá para gastar com caixa livre */
+function vtmFvTemLivre(ator){const fv=ator.fv();return ajustarArray(fv.arr,fv.max).includes(0);}
+function vtmEscolherRerrol(i){
+  const s=VR.estado;if(!s||!s.res||s.rerrolado)return;
+  const sel=s.selRer||(s.selRer=[]);const k=sel.indexOf(i);
+  if(k>=0)sel.splice(k,1);else{if(sel.length>=3){toast('No máximo 3 dados por rerrolagem.');return;}sel.push(i);}
+  vtmRenderResultado();
 }
 function vtmRenderResultado(){
   const s=VR.estado;if(!s)return;
@@ -7652,24 +7671,28 @@ function vtmRenderResultado(){
   let corpo=vtmChecagemHtml(s.checagem);
   if(res){
     const dano=c.arma?`<div class="vr-nota">🗡 Se vencer: dano = margem + <b>${escapeHTML(String(c.arma.dano||0))}</b>${c.arma.tipo?' ('+escapeHTML(c.arma.tipo)+')':''}</div>`:'';
-    const fvLivre=ator.fv().arr.some(v=>v!==2);
-    const podeRerrolar=!s.rerrolado&&res.dados.some(d=>d.tipo==='comum'&&d.v<6)&&!c.semRerrolagem;
-    corpo+=`<div class="dice-result vr-dados">${vtmDadosHtml(res.dados,s.rerrolados)}</div>
+    const fvLivre=vtmFvTemLivre(ator);
+    const podeRerrolar=!s.rerrolado&&res.dados.some(d=>d.tipo==='comum')&&!c.semRerrolagem;
+    // seleção padrão: até 3 dados comuns que falharam (o jogador pode trocar, ex.: rerrolar sucessos atrás de um 10)
+    if(podeRerrolar&&!s.selRer){s.selRer=[];res.dados.forEach((d,i)=>{if(d.tipo==='comum'&&d.v<6&&s.selRer.length<3)s.selRer.push(i);});}
+    const nSel=podeRerrolar?s.selRer.length:0;
+    corpo+=`<div class="dice-result vr-dados">${vtmDadosHtml(res.dados,s.rerrolados,podeRerrolar&&fvLivre?s.selRer:null)}</div>
       <div class="result-summary"><span class="${res.cls}">${res.resultado}: ${res.sucessos} sucesso(s)${res.dif!=null?' / Dificuldade '+res.dif:''}</span>${res.pares?` <span class="mini-muted">(${res.pares} par(es) de 10)</span>`:''}${res.margem!=null&&res.margem>0?` <span class="mini-muted">· margem ${res.margem}</span>`:''}</div>
       ${res.resultado==='Falha Bestial'?'<div class="vr-nota mess">A Besta cobra o preço: uma Compulsão (ou consequência à escolha do Narrador).</div>':''}
       ${res.resultado==='Crítico Bestial'?'<div class="vr-nota comp">Crítico bagunçado: vence, mas de um jeito selvagem — o Narrador define a complicação.</div>':''}
       ${dano}
-      ${podeRerrolar?`<div class="vr-acoes"><button class="btn outline small" onclick="vtmRerrolarFV()" ${fvLivre?'':'disabled'} title="Gasta 1 ponto de Força de Vontade e rerrola até 3 dados comuns que falharam">↻ Rerrolar com Força de Vontade</button></div>`:''}`;
+      ${podeRerrolar?`<div class="vr-acoes vr-rerrol">${fvLivre?`<span class="mini-muted">Toque nos dados comuns para escolher até 3 (Fome não rerrola).</span>`:'<span class="mini-muted">Sem ponto livre de Força de Vontade.</span>'}<button class="btn outline small" onclick="vtmRerrolarFV()" ${fvLivre&&nSel?'':'disabled'} title="Gasta 1 ponto de Força de Vontade (1 dano Superficial) e rerrola os dados marcados">↻ Rerrolar ${nSel} dado(s) com Força de Vontade</button></div>`:''}`;
   }
   b.innerHTML=`<div class="vr-cab"><div><div class="vr-tit">${escapeHTML(c.titulo||'Rolagem')}</div><div class="vr-quem">${escapeHTML(ator.nome)}${res?` · ${res.total} dado(s)`:''}</div></div><button class="vr-x" onclick="vtmFecharBandeja()" title="Fechar (Esc)">✕</button></div><div class="vr-corpo">${corpo}<div class="vr-acoes"><button class="btn small" onclick="vtmRenderPreparo()">↺ Rolar de novo</button></div></div>`;
   b.classList.add('on');
 }
 async function vtmRerrolarFV(){
   const s=VR.estado;if(!s||!s.res||s.rerrolado)return;
-  const ator=s.ator;const fv=ator.fv();const arr=[...fv.arr];
-  const idx=arr.findIndex(v=>v!==2);if(idx<0){toast('Sem Força de Vontade disponível.');return;}
-  arr[idx]=2;ator.setFv(arr);
-  const alvos=[];s.res.dados.forEach((d,i)=>{if(d.tipo==='comum'&&d.v<6&&alvos.length<3)alvos.push(i);});
+  const ator=s.ator;const fv=ator.fv();
+  if(!vtmFvTemLivre(ator)){toast('Sem Força de Vontade disponível.');return;}
+  const alvos=(s.selRer||[]).filter(i=>s.res.dados[i]&&s.res.dados[i].tipo==='comum').slice(0,3);
+  if(!alvos.length){toast('Escolha ao menos 1 dado comum para rerrolar.');return;}
+  ator.setFv(vtmAplicarDanoTrilha(fv.arr,fv.max,1,1));
   alvos.forEach(i=>s.res.dados[i].v=rolarUmD10());
   Object.assign(s.res,vtmClassificar(s.res.dados,s.res.dif));
   s.rerrolado=true;s.rerrolados=alvos;
@@ -8666,8 +8689,8 @@ function cbRolarPoderPC(pid,di,pi,rit){
 }
 function cbRolarTeste(pid,qual){
   const p=cbGet(pid);const a=cbAtor(p);if(!a)return;
-  if(qual==='fv')return vtmPrepararRolagem({ator:a,titulo:'Teste de Força de Vontade',tracos:['Autocontrole','Determinação'],semFome:true,semSurto:true});
-  if(qual==='frenesi')return vtmPrepararRolagem({ator:a,titulo:'Resistir ao Frenesi',tracos:['Autocontrole','Determinação'],extras:[{rotulo:'⅓ Humanidade',valor:Math.floor(a.humanidade()/3)}],semFome:true,semSurto:true,nota:'Fúria: amigo morto 2, pilar ferido 3, humilhação 2 · Fome: cheiro de sangue (Fome 4+) 2, gosto 3 · Terror: fogueira 2, prédio em chamas 3, sol 4. Vitória comum custa o turno; crítico resiste sem perder o turno.'});
+  if(qual==='fv')return vtmPrepararRolagem({ator:a,titulo:'Teste de Força de Vontade',tracos:['Autocontrole','Determinação'],semFome:true,semSurto:true,semRerrolagem:true});
+  if(qual==='frenesi')return vtmPrepararRolagem({ator:a,titulo:'Resistir ao Frenesi',semRerrolagem:true,tracos:['Autocontrole','Determinação'],extras:[{rotulo:'⅓ Humanidade',valor:Math.floor(a.humanidade()/3)}],semFome:true,semSurto:true,nota:'Fúria: amigo morto 2, pilar ferido 3, humilhação 2 · Fome: cheiro de sangue (Fome 4+) 2, gosto 3 · Terror: fogueira 2, prédio em chamas 3, sol 4. Vitória comum custa o turno; crítico resiste sem perder o turno.'});
   if(qual==='esquiva')return vtmPrepararRolagem({ator:a,titulo:'Esquiva / defesa',tracos:['Destreza','Atletismo'],nota:'Esquivando você não causa dano, mesmo vencendo.'});
   if(qual==='desarmado'){const garras=a.tipo==='pc'&&(a.ficha.disciplinas||[]).some(d=>(d.poderesEscolhidos||[]).some(x=>x.nome==='Armas Ferais'));
     return vtmPrepararRolagem({ator:a,titulo:'Ataque desarmado',tracos:['Força','Briga'],arma:{dano:garras?'+2 (garras, com Armas Ferais ativas)':'+0'},nota:'Mordida (agarrado): 2 de dano Agravado.'});}
@@ -12335,6 +12358,54 @@ const _vtmAbaMestreArc=vtmAbaMestre;
 vtmAbaMestre=function(k){const r=_vtmAbaMestreArc.apply(this,arguments);try{if(k==='recompensas')vtmArcRenderConceder();if(k==='arcanos'){VARC_ED=null;vtmArcRenderMestre();}}catch(e){console.error(e);}return r;};
 const _vtmAplicarDadosArc=aplicarDadosRecebidos;
 aplicarDadosRecebidos=function(novoDb){_vtmAplicarDadosArc(novoDb);try{if(currentCampaignId&&camp()){const pr=vtmPaneMestre('recompensas');if(pr&&pr.classList.contains('on'))vtmArcRenderConceder();const pa=vtmPaneMestre('arcanos');if(pa&&pa.classList.contains('on')&&!VARC_ED)vtmArcRenderMestre();}}catch(e){}};
+
+/* ===== Hub: crônicas em que o usuário joga (além das que mestra) ===== */
+function vtmCronicasComoJogador(){
+  if(!currentUser)return [];
+  const eu=normalizar(currentUser.username);
+  return Object.values(db.campanhas||{}).filter(c=>{
+    if(!c||!c.id)return false;
+    if(normalizar(c.mestreUsuario||'')===eu)return false; // já aparece em "como Mestre"
+    const jog=c.jogadores||{};
+    if(jog[eu])return true;
+    if(Object.values(jog).some(j=>j&&normalizar(j.nome||'')===eu))return true;
+    return Object.values(c.fichas||{}).some(f=>f&&(f.donoId===eu||normalizar(f.f_jogador||'')===eu&&f.donoId));
+  });
+}
+function vtmMinhasFichasEm(c){
+  const eu=normalizar(currentUser.username);
+  return Object.values(c.fichas||{}).filter(f=>f&&f.donoId===eu);
+}
+function renderCronicasJogador(){
+  const host=document.getElementById('minhas-cronicas-lista');if(!host||!currentUser)return;
+  let painel=document.getElementById('cronicas-jogador-painel');
+  if(!painel){
+    painel=document.createElement('div');painel.className='panel dark';painel.id='cronicas-jogador-painel';painel.style.marginTop='1.2rem';
+    painel.innerHTML='<h3>Minhas Crônicas (como Jogador)</h3><div id="cronicas-jogador-lista" class="cards-grid"></div>';
+    const painelMestre=host.closest('.panel');
+    painelMestre.parentNode.insertBefore(painel,painelMestre); // jogador primeiro: é o que a maioria usa
+  }
+  const box=document.getElementById('cronicas-jogador-lista');
+  const lista=vtmCronicasComoJogador().map(c=>{const fichas=vtmMinhasFichasEm(c);
+    const ult=Math.max(c.criadaEm||0,...fichas.map(f=>f.atualizadoEm||f.updatedAt||0));return {c,fichas,ult};})
+    .sort((a,b)=>b.ult-a.ult);
+  if(!lista.length){box.innerHTML='<div class="empty">Você ainda não entrou em nenhuma crônica como jogador. Use “Entrar em Crônica” com o código do mestre.</div>';return;}
+  box.innerHTML='';
+  lista.forEach(({c,fichas})=>{
+    const div=document.createElement('div');div.className='card';div.tabIndex=0;div.setAttribute('role','button');
+    const capa=c.capa?`<img src="${c.capa}" alt="" style="width:100%;height:100px;object-fit:cover;border-radius:3px;margin-bottom:.5rem;border:1px solid var(--border)"/>`:'';
+    const nomes=fichas.map(f=>f.f_nome||'Sem nome').filter(Boolean);
+    const sub=nomes.length?`Personagem: <b>${escapeHTML(nomes.slice(0,3).join(', '))}${nomes.length>3?'…':''}</b>`:'Nenhuma ficha sua ainda';
+    div.innerHTML=`${capa}<h3>${escapeHTML(c.nome||'Crônica')}</h3><div class="meta">${sub}${c.mestreUsuario?` · Mestre: ${escapeHTML(c.mestreUsuario)}`:''}</div><div class="stats"><span class="pill">Jogador</span></div><div class="card-actions"><button class="btn blood small" type="button">Entrar</button></div>`;
+    const abrir=()=>abrirCampanha(c.id);
+    div.onclick=abrir;div.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();abrir();}};
+    box.appendChild(div);
+  });
+}
+(function(){
+  const _orig=renderMinhasCronicas;
+  renderMinhasCronicas=function(){const r=_orig.apply(this,arguments);try{renderCronicasJogador();}catch(e){console.warn(e);}return r;};
+})();
 
 /* inicia a conexão com o Firebase só agora, com tudo pronto */
 carregarDB();
